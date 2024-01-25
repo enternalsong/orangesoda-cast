@@ -18,6 +18,7 @@ export default {
           hoverLogin:'#4CAF50',
         }
       },
+      
     },
   },
   plugins: [],

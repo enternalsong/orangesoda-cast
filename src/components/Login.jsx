@@ -11,19 +11,21 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import LoginButton from './LoginButton'
 import mySvg from './../assets/images/logo.svg';
-
+import { useNavigate } from 'react-router-dom';
 import carousel01 from './../assets/images/carousel01.png';
 import carousel02 from './../assets/images/carousel02.png';
 import carousel03 from './../assets/images/carousel03.png';
 //import { useNavigate } from 'react-router-dom';
 
 const Login = () =>{
-
-    const token = localStorage.getItem("spotifyToken");
-    console.log(token);
-    if(token){
-
-    }
+    const token = localStorage.getItem("accessToken");
+    const refresh_token = localStorage.getItem("refreshToken");
+    const navigate = useNavigate();
+    useEffect(()=>{
+        if(token){
+            navigate('/home');
+        }
+    },[])
     return(
         <div className="h-screen flex flex-row justify-center">
                 <div className="flex flex-1 flex-col  items-center justify-center bg-white ">
@@ -64,7 +66,7 @@ const Login = () =>{
                                     <p className="text-[16px]">透過Spotify登入，即刻同步您的收藏，隨時隨地收聽</p>
                             </div>
                         </SwiperSlide>
-                        {/* 添加更多轮播项 */}
+
                         </Swiper>
         </div>
     )

@@ -1,20 +1,21 @@
-// import {BrowserRouter as Router,Routes ,Route,useNavigate} from 'react-router-dom';
+
 // import { useEffect } from 'react';
 import Login from './components/Login';
-import Player from './components/player/Player';
+import Home from './components/Home';
+import Callback from './components/Callback';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
 
   return (
     <div className="App">
-      <Login></Login>
-      <Player></Player>
-      {/* <Router>
+      <Router>
         <Routes>
           <Route exact path='/' element={<Login/>}></Route>
-          <Route path='/player' element={<Player/>}></Route>
+          <Route path='/callback' element={<Callback/>}></Route>
+          <Route path='/home' element={<Home/>}></Route>
         </Routes>
-      </Router> */}
+      </Router>
  
     </div>
   )
