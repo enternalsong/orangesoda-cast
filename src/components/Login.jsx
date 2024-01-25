@@ -2,7 +2,7 @@
 import { Navigation, Pagination ,Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 
 import 'swiper/css';
 import 'swiper/swiper-bundle.css'
@@ -32,8 +32,7 @@ const Login = () =>{
                         <img className="mb-4"src={mySvg} alt="My svg Image"></img>
                         <div className="mb-4"><span>Connecting Stories That Matter</span></div>
                         <LoginButton></LoginButton>
-                        <div>沒有帳號嗎？<a className="underline" href="https://www.spotify.com/hk-zh/signup">註冊帳號</a></div>                
-
+                        <div>沒有帳號嗎？<Link to="/home"><span className="underline">註冊帳號</span></Link></div>                
                 </div>
                     <Swiper className="flex flex-1 bg-carousel03"
                         modules={[Navigation,Pagination,Autoplay]}
