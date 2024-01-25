@@ -10,8 +10,7 @@ const Callback = () =>{
         async function wait_token(){
             try{
                 const token = await getAccessToken(clientId, code);
-                //console.log(token);
-
+                console.log(token);
                 const profile = await fetchProfile(token);
                 console.log(profile);
                 if(token){
@@ -34,7 +33,9 @@ const Callback = () =>{
         params.append("client_id", clientId);
         params.append("grant_type", "authorization_code");
         params.append("code", code);
-        params.append("redirect_uri", "http://localhost:5173/callback");
+        // params.append("redirect_uri", "http://localhost:5173/callback");
+        params.append("redirect_uri", "https://alfacast.netlify.app/callback");
+
         params.append("code_verifier", verifier);
         const result = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
@@ -43,6 +44,7 @@ const Callback = () =>{
         });
 
         const { access_token } = await result.json();
+        console.log(access_token);
         localStorage.setItem("accessToken",access_token);
         return access_token;
     }
@@ -55,7 +57,7 @@ const Callback = () =>{
     }
     return(
         <div>
-            Hello World
+            Callback Error Loading
         </div>
     )
 }
