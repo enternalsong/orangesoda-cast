@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react';
-import { getUserPlayerList , Search} from '../../api/api';
+import { getUserPlayerList , search} from '../../api/api';
 import close_svg from './../../assets/images/close.svg'
 const Modal_add = (props)=>{
     const token = localStorage.getItem("accessToken");
@@ -11,7 +11,7 @@ const Modal_add = (props)=>{
     },[searchPtList])
     async function SearchPodcast(token,text){
         //let result = getUserPlayerList(token);
-        let result1 = await Search(token,text);
+        let result1 = await search(token,text);
         let pt_list = result1.shows.items;
         setSearchPtList(pt_list);
         console.log(pt_list);
@@ -19,7 +19,7 @@ const Modal_add = (props)=>{
 
     const Modal_Close = ()=>{
         setModalOpen(false);
-        props.onClose(false,"add");
+        props.onClose(false,"add_podcast");
     }
     const handleInputChange = (e)=>{
         setSearchText(e.target.value);
@@ -66,7 +66,7 @@ const Modal_add = (props)=>{
                                 <path d="M12.5 11H11.71L11.43 10.73C12.41 9.59 13 8.11 13 6.5C13 2.91 10.09 0 6.5 0C2.91 0 0 2.91 0 6.5C0 10.09 2.91 13 6.5 13C8.11 13 9.59 12.41 10.73 11.43L11 11.71V12.5L16 17.49L17.49 16L12.5 11ZM6.5 11C4.01 11 2 8.99 2 6.5C2 4.01 4.01 2 6.5 2C8.99 2 11 4.01 11 6.5C11 8.99 8.99 11 6.5 11Z" fill="#ACADB9"/>
                                 </svg>
                             </button>
-                            <input type="text" onChange={(e)=>{handleInputChange(e)} }value={searchText} className="w-full p-2 text-sm leading-5 text-gray-500 bg-[#F7F7F7]" placeholder="開始搜尋"/>
+                            <input type="text" onChange={(e)=>{handleInputChange(e)} } value={searchText} className="w-full p-2 text-sm leading-5 text-gray-500 bg-[#F7F7F7]" placeholder="開始搜尋"/>
                         </div>                            
                             {searchPtList.length>0 &&(
                                 <div>

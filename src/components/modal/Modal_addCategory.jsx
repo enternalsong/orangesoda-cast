@@ -1,10 +1,13 @@
 import { useState,useEffect } from 'react';
-import close_svg from './../../assets/images/close.svg';
-const Modal_delete = (props)=>{
-    const [ModalOpen, setModalOpen] = useState(false);
+import close_svg from './../../assets/images/close.svg'
+const Modal_addCatergory = (props)=>{
+    const token = localStorage.getItem("accessToken");
+    const [categoryName, setCategoryName] =useState("");
     const Modal_Close = ()=>{
-        setModalOpen(false);
-        props.onClose(false,"delete");
+        props.onClose(false,"add_category");
+    }
+    const handleInputChange = (e)=>{
+        setCategoryName(e.target.value);
     }
     return(
 <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -37,12 +40,14 @@ const Modal_delete = (props)=>{
                                 id="modal-headline"
                                 style={{fontFamily:'Noto Sans TC'}}
                             >
-                                Delete
+                                新增分類
                             </h3>
                             <button onClick={Modal_Close}><img src={close_svg}></img></button>
                         </div>
                       <div className="mt-2">
-                           
+                        <div className="flex bg-[#F7F7F7] p-[8px] items-center">
+                            <input type="text" onChange={(e)=>{handleInputChange(e)} } value={categoryName} className="w-full p-2 text-sm leading-5 text-gray-500 bg-[#F7F7F7]" placeholder="清輸入分類名稱"/>
+                        </div>                            
                             
                       </div>
                     </div>
@@ -61,7 +66,7 @@ const Modal_delete = (props)=>{
                       type="button"
                       className="flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-brand text-base leading-6 font-medium text-white shadow-sm hover:bg-caution focus:outline-none focus:border-caution focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 flex items-center"
                     >
-                      確認刪除
+                      確認新增分類
                     </button>
                   </span>
                 </div>
@@ -70,4 +75,5 @@ const Modal_delete = (props)=>{
           </div>
     )
 }
-export default Modal_delete;
+
+export default Modal_addCatergory;

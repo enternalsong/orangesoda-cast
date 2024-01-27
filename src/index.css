@@ -12,4 +12,43 @@
         line-height:150%;
         letter-spacing:0.2px;
     }
+    .player-bk{
+        background-color: rgb(255, 255, 255);
+        color: rgba(0, 0, 0, 0.87);
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border-radius: 4px;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+        overflow: hidden;
+        padding: 16px 32px 16px 32px;
+    }
+    .player-ep-name{
+        overflow: hidden;
+        color: #111;
+        text-overflow: ellipsis;
+        font-family: "Noto Sans TC";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        width: 136px;
+        height: 96px;
+
+    }
+    .player-date{
+        color: #93989A;
+        font-family: "Noto Sans TC";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    .player-des{
+        color: #718096;
+
+        font-family: "Noto Sans TC";
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
 }

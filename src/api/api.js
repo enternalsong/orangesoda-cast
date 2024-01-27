@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 export async function fetchProfile(token){
         let result = await axios.get("https://api.spotify.com/v1/me", {
         headers: { Authorization: `Bearer ${token}` }
@@ -21,10 +22,11 @@ export async function getUserTop(token){
     }).catch(err=>{
         console.log(err)
     })
+    return result;
 }
 
-export async function getUserPlayerList(token){
-    let result = await axios.get("https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n",{
+export async function getUserPlayerList(token,user_id){
+    let result = await axios.get(`https://api.spotify.com/v1/users/${user_id}/playlists`,{
         headers: { Authorization: `Bearer ${token}` }
     }).then(res=>{
         console.log(res);
@@ -33,10 +35,23 @@ export async function getUserPlayerList(token){
     }).catch(err=>{
         console.log(err)
     })
+    return result;
 }
 
-export async function Search(token,text){
+export async function search(token,text){
     let result = await axios.get(`https://api.spotify.com/v1/search?q=${text}&type=show`,{
+        headers: { Authorization: `Bearer ${token}` }
+    }).then(res=>{
+        console.log(res.data);
+        return res.data;
+    }).catch(err=>{
+        console.log(err)
+    })
+    return result;
+}
+
+export async function getEp(token,href){
+    let result = await axios.get(`${href}`,{
         headers: { Authorization: `Bearer ${token}` }
     }).then(res=>{
         console.log(res.data);
