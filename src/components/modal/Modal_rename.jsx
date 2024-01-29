@@ -1,13 +1,44 @@
 import { useState,useEffect } from 'react';
 import close_svg from './../../assets/images/close.svg'
+import {getDatabase,ref,set,remove,onValue, update} from 'firebase/database';
+import database from '../../api/firebase';
 const Modal_rename = (props)=>{
     const [ModalOpen, setModalOpen] = useState(false);
+    const [cg_name,setCg_name] = useState("")
 
     const Modal_Close = ()=>{
         setModalOpen(false);
-        props.onClose(false,"rename");
+        props.onClose("rename",false);
     }
-
+    useEffect(()=>{
+      setCg_name(Object.keys(props.selected_cg[1]));
+    },[])
+    const handleInputChange = (e)=>{
+      console.log(props.selected_cg);
+      console.log(props.selected_cg[1][Object.keys(props.selected_cg[1])]);
+      setCg_name(e.target.value);
+    }
+    //firebase update item name
+    const rename_firebase_cg = (cg_name,userId)=>{
+    //   const newRef =ref(database,`Spotify/user/${userId}/category/${props.selected_cg[0]}/${cg_name}`); 
+      console.log(props.selected_cg[1][Object.keys(props.selected_cg[1])]);
+      set(ref(database,`Spotify/user/${userId}/`+ "category/"+ props.selected_cg[0]),{
+        [cg_name]:props.selected_cg[1][Object.keys(props.selected_cg[1])]
+      }).then(()=>{
+          console.log("successful rename_firebase");
+      }).catch((error)=>{
+        console.log(`error:${error}`);
+      })
+      // remove(oldRef).then(()=>{
+      //   console.log("remove old ref");
+      //   }).catch((error)=>{
+      //     console.log(`error:${error}`);
+      // })
+    }
+    const fn_rename_cg =()=>{
+      rename_firebase_cg(cg_name,props.userId);
+      props.oncgUpdate("rename",false);
+    }
     return(
       <div className="fixed z-10 inset-0 overflow-y-auto">
             <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -39,14 +70,13 @@ const Modal_rename = (props)=>{
                                 id="modal-headline"
                                 style={{fontFamily:'Noto Sans TC'}}
                             >
-                                Delete
+                                編輯名稱
                             </h3>
                             <button onClick={Modal_Close}><img src={close_svg}></img></button>
                         </div>
-                      <div className="mt-2">
-                           
-                            
-                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <input type="text" onChange={(e)=>{handleInputChange(e)} } value={cg_name} className="w-full p-2 text-sm leading-5 text-gray-500 bg-[#F7F7F7]"/>
                     </div>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -59,11 +89,11 @@ const Modal_rename = (props)=>{
                       取消
                     </button>
                     <button
-                      onClick={Modal_Close}
+                      onClick={fn_rename_cg }
                       type="button"
                       className="flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-brand text-base leading-6 font-medium text-white shadow-sm hover:bg-caution focus:outline-none focus:border-caution focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 flex items-center"
                     >
-                      確認刪除
+                      確認更改名字
                     </button>
                   </span>
                 </div>

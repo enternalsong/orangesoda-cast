@@ -25,8 +25,8 @@ export async function getUserTop(token){
     return result;
 }
 
-export async function getUserPlayerList(token,user_id){
-    let result = await axios.get(`https://api.spotify.com/v1/users/${user_id}/playlists`,{
+export async function getUserShow(token){
+    let result = await axios.get(`https://api.spotify.com/v1/me/shows`,{
         headers: { Authorization: `Bearer ${token}` }
     }).then(res=>{
         console.log(res);

@@ -1,5 +1,5 @@
 import { useState,useEffect } from 'react';
-import { getUserPlayerList , search} from '../../api/api';
+import { search} from '../../api/api';
 import close_svg from './../../assets/images/close.svg'
 const Modal_add = (props)=>{
     const token = localStorage.getItem("accessToken");
@@ -19,7 +19,7 @@ const Modal_add = (props)=>{
 
     const Modal_Close = ()=>{
         setModalOpen(false);
-        props.onClose(false,"add_podcast");
+        props.onClose("add_podcast",false);
     }
     const handleInputChange = (e)=>{
         setSearchText(e.target.value);

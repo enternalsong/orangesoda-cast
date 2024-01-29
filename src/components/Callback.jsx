@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import {checkFirebase_user} from '../api/firebase';
+import { getUserShow } from '../api/api';
+
 const Callback = () =>{
     const clientId =import.meta.env.VITE_API_CLIENT_ID;
     const params = new URLSearchParams(window.location.search);
@@ -12,8 +15,16 @@ const Callback = () =>{
                 const token = await getAccessToken(clientId, code);
                 console.log(token);
                 const profile = await fetchProfile(token);
-                console.log(profile);
+                console.log(profile); 
+                const user_save_show = await getUserShow(token)
+                
+                console.log(user_save_show.items);
+                if(user_save_show.items===null){
+                    user_save_show.items=[""];
+                }
+                const cg_set =[{"Spotify已收藏節目":user_save_show.items}];
                 if(token){
+                    checkFirebase_user(`${profile.id}`,`${profile.display_name}`,`${profile.email}`,`${profile.product}`,cg_set,false);
                     console.log("happy");
                     navigate('/');
                 }
@@ -33,8 +44,10 @@ const Callback = () =>{
         params.append("client_id", clientId);
         params.append("grant_type", "authorization_code");
         params.append("code", code);
-        params.append("redirect_uri", "http://localhost:5173/callback");
-        // params.append("redirect_uri", "https://alfacast.netlify.app/callback");
+        //local
+        //params.append("redirect_uri", "http://localhost:5173/callback");
+        //deploy
+        params.append("redirect_uri", "https://alfacast.netlify.app/callback");
         params.append("code_verifier", verifier);
         const result = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",

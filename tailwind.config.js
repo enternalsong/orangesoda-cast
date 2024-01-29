@@ -18,7 +18,9 @@ export default {
           hoverLogin:'#4CAF50',
         }
       },
-      
+      fontFamily: {
+        'sans': ['Noto Sans TC','sans-serif'],
+      },
     },
   },
   plugins: [],

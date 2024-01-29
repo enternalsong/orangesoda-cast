@@ -1,10 +1,17 @@
 import { useState,useEffect } from 'react';
 import close_svg from './../../assets/images/close.svg';
+import { delete_firebase_cg } from '../../api/firebase';
 const Modal_delete = (props)=>{
     const [ModalOpen, setModalOpen] = useState(false);
     const Modal_Close = ()=>{
         setModalOpen(false);
-        props.onClose(false,"delete");
+        props.onClose("delete",false);
+    }
+    const handle_delete=()=>{
+      props.cg_list.splice(props.selected_cg[0],1);
+      console.log(props.cg_list)
+      delete_firebase_cg(props.userId,props.cg_list);
+      props.oncgUpdate("delete",false);
     }
     return(
 <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -42,7 +49,7 @@ const Modal_delete = (props)=>{
                             <button onClick={Modal_Close}><img src={close_svg}></img></button>
                         </div>
                       <div className="mt-2">
-                           
+                          <div>確認刪除{Object.keys(props.selected_cg[1])}嗎</div>
                             
                       </div>
                     </div>
@@ -57,7 +64,7 @@ const Modal_delete = (props)=>{
                       取消
                     </button>
                     <button
-                      onClick={Modal_Close}
+                      onClick={handle_delete}
                       type="button"
                       className="flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-brand text-base leading-6 font-medium text-white shadow-sm hover:bg-caution focus:outline-none focus:border-caution focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 flex items-center"
                     >
