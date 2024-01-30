@@ -1,7 +1,7 @@
 
 
 const Player = (props) =>{
-    
+
     return(
         <div className="player-bk" style={{fontFamily:'Noto Sans TC'}}>
             <div className="flex items-center justify-between pb-[16px] border-b-[1px] mb-[16px]">
@@ -14,15 +14,15 @@ const Player = (props) =>{
             </div>
             <div className="info">
                 <div className="flex mb-[16px]">
-                    { props.episode.images ?
+                    {/* { props.episode!==undefined ?
                         ( <img className="w-[96px] h-[96px] mr-[16px]" src={props.episode.images[1].url} alt="Not found"></img>):
                         ( <img className="w-[96px] h-[96px] mr-[16px]" alt="Not found"></img>)
                     }
                     {
-                        props.episode.episodes ?
+                        props.episode!==undefined ?
                         (<div className="player-ep-name"> {props.episode.episodes.items[0].name}</div>):
                         (<div></div>)
-                    }
+                    } */}
                 </div>
                 <div className="show-name text-[14px] text-[#30A9DE] mb-[4px]">{props.episode.name}</div>
                 <div className="player-date mb-[4px]">{props.episode.name}・{props.episode.name}</div>
@@ -33,11 +33,6 @@ const Player = (props) =>{
                     </div>
                 </div>
             </div>
-
-
-
-
-
         </div>
     )
 

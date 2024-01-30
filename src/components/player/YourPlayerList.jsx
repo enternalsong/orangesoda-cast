@@ -21,32 +21,42 @@ const Greeting = () => {
     )
 }
 const Gallery_show = (props)=>{
-    const [show,setShow] =useState([""]);
+    const [show,setShow] =useState([]);
     useEffect(()=>{
     },[])
     useEffect(()=>{
         setShow(props.show);
         console.log(props.show);
     },[props.show])
-    if(Array.isArray(show)){
+    console.log(show);
+    const btn_more=()=>{
+
+    }
+        if(Array.isArray(show)){
             if(typeof(show[0])==='object')
             {
                 return(
-                <div className="flex flex-col  justify-center p-[16px]">
+                <div className="grid grid-cols-12 gap-4">
                     {show.map((item,key)=>(
-                    <div key={key}>
-
-                        <div className="card grid grid-cols-12 gap-4 mb-[36px]">
-                                <div className="card-image col-span-3">
-                                    {item.show.images&&
-                                    (<img className=""src={item.show.images[1].url}></img>)
+                    <div key={key} className="col-span-3 ">
+                            <div className="ui_card mb-[32px] flex flex-col  border-[1px]">
+                                <div className="card-image border-[1px] mb-[8px] rounded-[11px]">
+                                    {item.show&&
+                                    (<img className="rounded-[11px]"src={item.show.images[1].url}></img>)
                                     }
                                 </div>
-                                <div className="card-body flex flex-col col-span-9">
-                                    <div className="title text-[16px]">{item.show.name}</div>
-                                    <div className="contnet text-[14px] text-[#718096]">{item.show.description}</div>
-                                </div>
-                        </div>
+                                {item.show&&(
+                                    <div className="card-body flex flex-col">
+                                        <div className="h-[50px] ">
+                                            <div className="text-[16px] max-h-[50px] text-left overflow-hidden ">{item.show.name}</div>
+                                        </div>
+                                        <div className="text-[14px] text-[#718096] h-[20px] overflow-hidden mb-[10px]">{item.show.publisher}</div>
+                                        <button className=" rounded-[4px] flex justify-start items-center gap-1  font-bold">
+                                            <div className="flex justify-center  rounded-md border border-transparent px-2 py-1 bg-brand text-base  font-medium text-white shadow-sm hover:bg-caution focus:outline-none focus:border-caution focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 flex items-center">更多</div>
+                                        </button>   
+                                    </div>
+                                )}
+                            </div>
                     </div>
                     ))}
                 </div>
@@ -67,7 +77,6 @@ const YourPlayerList = (props) =>{
     const token = localStorage.getItem('accessToken');
     const href = 'https://api.spotify.com/v1/shows/7HXIJ7YaaWye5fph1qtEu4';
     const [ep, setEp] = useState({});
-    const [ cg,setCg] = useState({"save":""});
     const [ show,setShow] = useState([""]);
     const [index,setIndex] = useState(0);
     useEffect(()=>{
@@ -76,16 +85,15 @@ const YourPlayerList = (props) =>{
     console.log(props.data);
     },[])
     useEffect(()=>{
-        setCg(props.cg_open);
-    },[props.cg_open])
-    useEffect(()=>{
-        if(cg!=null)
-        {
-            const keys =Object.keys(cg);
-            console.log(Object.keys(cg));
-            setShow(cg[keys[0]]);
+
+        setIndex(props.selected_index);
+        if(props.cg_open){
+            const keys =Object.keys(props.cg_open);
+            console.log(Object.keys(props.cg_open));
+            setShow(props.cg_open[keys[0]]);
         }
-    },[cg]);
+    },[props.cg_open])
+
     async function setEpData(token,href){
         let result = await getEp(token,href);
         setEp(result);
@@ -110,8 +118,8 @@ const YourPlayerList = (props) =>{
             </div>
 
             <div className="grid grid-cols-12 gap-4">
-                <div className="col-span-9 bg-gray-200">
-                    <Gallery_show show={show}></Gallery_show>
+                <div className="col-span-9 ">
+                    <Gallery_show show={show} index={props.selected_index}></Gallery_show>
                     {/* <div className="card">
                         <div className="card-image">1</div>
                         <div className="card-body">2</div>

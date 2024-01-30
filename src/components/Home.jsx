@@ -8,10 +8,12 @@ import Modal_rename from './modal/Modal_rename.jsx';
 import Modal_delete from './modal/Modal_delete.jsx';
 import Modal_add from './modal/Modal_add.jsx'
 import Modal_addCatergory from './modal/Modal_addCategory.jsx';
+import Modal_show_inner from './modal/Modal_show_inner.jsx';
 import Sidebar from './sidebar/Sidebar.jsx';
 import { getDatabase,ref,set,onValue} from 'firebase/database';
 import database,{get_firebase_cg} from '../api/firebase';
 import axios from 'axios';
+import { AppContext } from '../store/store.js';
 const Home = () =>{
     const token = localStorage.getItem("accessToken");
     const [isOpen, setIsOpen] = useState(false);
@@ -20,19 +22,20 @@ const Home = () =>{
     const [Userdata,setUserdata] = useState({});
     const [ModalRenameOpen, setModalRenameOpen] = useState(false);
     const [ModalDeleteOpen, setModalDeleteOpen] = useState(false);
+    const [ModalMoreShowOpen,setModalMoreShowOpen] = useState(false);
     const [ ModalAddOpen, setModalAddOpen]  = useState(false);
     const [ ModalAddcatergory, setModalAddcatergory] = useState(false);
     const [cg_list,setCg_list] = useState([]); //user_category
     const [cg_select,setCg_select] = useState([]); // Array[index,show[] ]
-    const [cgmark_open_index,setCgmark_open_index] = useState(0);
-    const [cg_open,setCgopen] = useState({});
+    const [cgmark_open_index,setCgmark_open_index] = useState(0); //selected_index cg for yourplay.jsx
+    const [cg_open,setCgopen] = useState({}); //selected_cg for yourplay.jsx
     useEffect(()=>{
         getProfile();
     },[]);
     useEffect(()=>{
         console.log(cg_list);
         //cg_list initilaize and set cg_open
-        setCgopen(cg_list[0]);
+        setCgopen(cg_list[cgmark_open_index]);
     },[cg_list]);
     function get_firebase_cg(userId){
         const dbRef = ref(database,`Spotify/user/${userId}`);
@@ -104,10 +107,13 @@ const Home = () =>{
             ModalDeleteOpen && (<Modal_delete cg_list={cg_list} selected_cg={cg_select} userId={Userdata.id} onClose={getCloseFromModal} oncgUpdate={getUpdate_cg_list}></Modal_delete>)
         }
         {
-            ModalAddOpen && (<Modal_add selected_cg={cg_select} userId={Userdata.id} onClose={getCloseFromModal}></Modal_add>)
+            ModalAddOpen && (<Modal_add selected_cg={cg_select} userId={Userdata.id}  oncgUpdate={getUpdate_cg_list} onClose={getCloseFromModal}></Modal_add>)
         }
         {
             ModalAddcatergory && (<Modal_addCatergory cg={cg_list} userId={Userdata.id} onClose={getCloseFromModal} oncgUpdate={getUpdate_cg_list}></Modal_addCatergory>)
+        }
+        {
+            ModalMoreShowOpen && (<Modal_show_inner />)
         }
         <div className="flex items-start">
             <div className="w-1/5 flex flex-col items-center bg-[#F6F7F8]  px-[32px] py-[40px] min-w-[210px] h-screen">
@@ -122,7 +128,7 @@ const Home = () =>{
                                 cg_list.length > 0 && ( cg_list.map((item,key)=>{
                                     return(
                                         <div key={key}>
-                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] mb-[12px] hover:bg-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
+                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] mb-[12px] hover:border-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
                                                 <div className="flex items-center leading-[20px]">
                                                     <i className="mr-3 text-[21px]">📚</i>
                                                     <div className="text-[14px] ">{Object.keys(cg_list[key])}</div>
@@ -143,7 +149,7 @@ const Home = () =>{
                     </div>
                 </div>
             </div>
-            <div className="w-4/5">
+            <div className="w-4/5 bg-[#F6F7F8] h-screen">
                 <YourPlayerList data={Userdata} cg_open={cg_open} selected_index={cgmark_open_index} ></YourPlayerList>
             </div>
         </div>

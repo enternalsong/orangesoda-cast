@@ -51,4 +51,10 @@
         font-weight: 400;
         line-height: normal;
     }
+    .ui_card{
+        padding:8px;
+        border-radius: 8px;
+        background: #FFF;
+        box-shadow: 24px 8px 24px 0px rgba(199, 199, 199, 0.24);    
+    }
 }

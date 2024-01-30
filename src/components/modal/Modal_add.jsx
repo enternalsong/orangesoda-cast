@@ -1,11 +1,13 @@
 import { useState,useEffect } from 'react';
-import { search} from '../../api/api';
-import close_svg from './../../assets/images/close.svg'
+import { search,saveUserShow} from '../../api/api';
+import close_svg from './../../assets/images/close.svg';
+import { save_firebase_pt} from '../../api/firebase';
 const Modal_add = (props)=>{
     const token = localStorage.getItem("accessToken");
     const [ModalOpen, setModalOpen] = useState(false);
     const [searchText, setSearchText] =useState("");
     const [searchPtList,setSearchPtList] = useState([]);
+    const [s_pt,setS_pt] = useState([]);
     useEffect(()=>{
         console.log(searchPtList);
     },[searchPtList])
@@ -16,13 +18,48 @@ const Modal_add = (props)=>{
         setSearchPtList(pt_list);
         console.log(pt_list);
     }
-
     const Modal_Close = ()=>{
         setModalOpen(false);
         props.onClose("add_podcast",false);
     }
     const handleInputChange = (e)=>{
         setSearchText(e.target.value);
+    }
+    const handleClick_pt = (pt)=>{   
+      console.log(pt);
+      console.log(props.selected_cg);
+      //initialize save data
+      setS_pt({
+                "show":pt
+              });
+    }
+    const array_zero_check = (s_arr)=>{
+      let newArray = [];
+      console.log(s_arr[0]);
+      //check duplicate
+      if(s_arr[0] === '')
+      {console.log("first add")
+        newArray = [s_pt];
+        console.log(newArray);
+      }
+      else{
+        newArray = [ ...s_arr,s_pt ];
+        console.log(newArray);
+      }
+      return(newArray);
+    }
+    const fn_save_Click = ()=>{
+      const s_arr = props.selected_cg[1][Object.keys(props.selected_cg[1])];
+      const add_array = array_zero_check(s_arr);
+      const spotify_show_id = s_pt.show.id;
+      save_firebase_pt(props.userId,props.selected_cg,add_array);
+      //here is save process for spotify data
+      if(props.selected_cg[0] === 0){
+        console.log("save user show");
+          saveUserShow(token,spotify_show_id)
+      }
+      //update alfa data
+      props.oncgUpdate("add_podcast",false);
     }
     return(
           <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -74,7 +111,7 @@ const Modal_add = (props)=>{
                                     <div className="grid grid-cols-4 gap-4">
                                         {searchPtList.map((pt,key)=>{
                                         return(
-                                            <div className="p-2 border-white rounded-[8px] shadow" key={key}>
+                                            <div onClick={(e)=>{handleClick_pt(pt)}} className="p-2 border-white hover:border-caution border-[1px] rounded-[8px] shadow" key={key}>
                                                 <div className="flex flex-col justify-center">
                                                     <img className="card-image" src={pt.images[1].url}></img>
                                                     <div className="card-body">
@@ -103,7 +140,7 @@ const Modal_add = (props)=>{
                       取消
                     </button>
                     <button
-                      onClick={Modal_Close}
+                      onClick={fn_save_Click}
                       type="button"
                       className="flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-brand text-base leading-6 font-medium text-white shadow-sm hover:bg-caution focus:outline-none focus:border-caution focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 flex items-center"
                     >

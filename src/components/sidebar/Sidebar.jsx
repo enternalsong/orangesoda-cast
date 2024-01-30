@@ -12,7 +12,7 @@ const Sidebar = (props)=>{
     const Modal_Open =(type)=>{
         console.log(props.cg_select);
         console.log(`Modal ${type} [${props.index}]:${Object.keys(props.cg_select)}`);
-        const selected = [props.index, props.cg_select];
+        const selected = [props.index, props.cg_select]
         props.onModalOpen(type,selected);
     }
     const toggleSidebar = () => {
@@ -44,7 +44,7 @@ const Sidebar = (props)=>{
                             </div>
                             <div className="flex  flex-col flex-start border-[1px]" onClick={()=>{Modal_Open("add_podcast")}}>          
                                 <div className="text-[14px] font-[500]  border-b-[1px] p-[16px] hover:text-[#FF7F50]">
-                                新增Podcast單集
+                                新增Podcast
                                 </div>         
                              </div>
                         </div>
@@ -52,7 +52,7 @@ const Sidebar = (props)=>{
                     :(
                         <div className="flex  flex-col flex-start border-[1px]" onClick={()=>{Modal_Open("add_podcast")}}>          
                             <div className="text-[14px] font-[500]  border-b-[1px] p-[16px] hover:text-[#FF7F50]">
-                            新增收藏
+                            新增Podcast
                             </div>         
                         </div>
                     )}

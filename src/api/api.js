@@ -61,3 +61,15 @@ export async function getEp(token,href){
     })
     return result;
 }
+
+export async function saveUserShow(token,ids){
+    let result = await axios.get(`https://api.spotify.com/v1/me/shows?ids=${ids}`,{
+        headers: { Authorization: `Bearer ${token}` }
+    }).then(res=>{
+        console.log(res.data);
+        return res.data;
+    }).catch(err=>{
+        console.log(err)
+    })
+    return result;
+}
