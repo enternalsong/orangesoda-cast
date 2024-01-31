@@ -1,4 +1,5 @@
-import { useState , useEffect , useRef } from 'react';
+import { useState , useEffect , useRef,useReducer  } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import mySvg from './../assets/images/logo.svg';
 import add_icon from './../assets/images/add.svg';
@@ -11,9 +12,9 @@ import Modal_addCatergory from './modal/Modal_addCategory.jsx';
 import Modal_show_inner from './modal/Modal_show_inner.jsx';
 import Sidebar from './sidebar/Sidebar.jsx';
 import { getDatabase,ref,set,onValue} from 'firebase/database';
-import database,{get_firebase_cg} from '../api/firebase';
+import database,{get_firebase_cg,delete_firebase_cg} from '../api/firebase';
 import axios from 'axios';
-import { AppContext } from '../store/store.js';
+
 const Home = () =>{
     const token = localStorage.getItem("accessToken");
     const [isOpen, setIsOpen] = useState(false);
@@ -21,19 +22,21 @@ const Home = () =>{
     const [ImageUrl ,setImageUrl ] = useState('');
     const [Userdata,setUserdata] = useState({});
     const [ModalRenameOpen, setModalRenameOpen] = useState(false);
-    const [ModalDeleteOpen, setModalDeleteOpen] = useState(false);
-    const [ModalMoreShowOpen,setModalMoreShowOpen] = useState(false);
+    const [ModalDeleteOpen, setModalDeleteOpen] = useState(false); 
     const [ ModalAddOpen, setModalAddOpen]  = useState(false);
     const [ ModalAddcatergory, setModalAddcatergory] = useState(false);
+    const [ ModalMoreOpen,setModalMoreOpen] = useState(false);
     const [cg_list,setCg_list] = useState([]); //user_category
     const [cg_select,setCg_select] = useState([]); // Array[index,show[] ]
     const [cgmark_open_index,setCgmark_open_index] = useState(0); //selected_index cg for yourplay.jsx
     const [cg_open,setCgopen] = useState({}); //selected_cg for yourplay.jsx
+    const [show_select,setShow_select] = useState({});
+    const [ show_list_key,setshow_list_key] = useState({});
     useEffect(()=>{
         getProfile();
     },[]);
     useEffect(()=>{
-        console.log(cg_list);
+        //console.log(cg_list);
         //cg_list initilaize and set cg_open
         setCgopen(cg_list[cgmark_open_index]);
     },[cg_list]);
@@ -44,9 +47,8 @@ const Home = () =>{
             const childKey = childSnapshot.key;
             const childData = childSnapshot.val();
             if(childKey==="category"){
-              console.log(childData);
+              //console.log(childData);
               setCg_list(childData);
-              
             }
           })
           // console.log(snapshot.val()); //show all val(
@@ -58,10 +60,9 @@ const Home = () =>{
         let result = await axios.get("https://api.spotify.com/v1/me", {
             headers: { Authorization: `Bearer ${token}` }
         }).then(res =>{
-            console.log(res.data);
             //setImageUrl(res.data.images[0].url);
             setUserdata(res.data);                    //get spotify profile
-            console.log(get_firebase_cg(res.data.id))//get firebase category
+            get_firebase_cg(res.data.id)//get firebase category
         }).catch(err=>{
             console.log(err);
         })
@@ -77,16 +78,14 @@ const Home = () =>{
     }
     const getUpdate_cg_list = (mode,close)=>{
         get_firebase_cg(Userdata.id);
-        if(mode ==="rename"){ setModalRenameOpen(close)}
-        if(mode ==="delete"){ setModalDeleteOpen(close)}
-        if(mode ==="add_podcast"){setModalAddOpen(close)}
-        if(mode ==="add_category"){setModalAddcatergory(close)}
+        getCloseFromModal(mode,close);
     };
     const getCloseFromModal = (mode,close)=>{
         if(mode ==="rename"){ setModalRenameOpen(close)}
         if(mode ==="delete"){ setModalDeleteOpen(close)}
         if(mode ==="add_podcast"){setModalAddOpen(close)}
         if(mode ==="add_category"){setModalAddcatergory(close)}
+        if(mode ==="show_more"){setModalMoreOpen(close)}
     }
     const getOpenModalFromChild=(type,s_array_cg)=>{
         setCg_select(s_array_cg);
@@ -98,7 +97,13 @@ const Home = () =>{
         if(key!==cgmark_open_index)
         {setCgmark_open_index(key);}
     }
+    const open_more_modal =(open,show,key)=>{
+        setModalMoreOpen(open);
+        setShow_select(show);
+        setshow_list_key(key);
+    }
     return(
+
     <div>
         {
             ModalRenameOpen && (<Modal_rename selected_cg={cg_select} userId={Userdata.id} oncgUpdate={getUpdate_cg_list} onClose={getCloseFromModal}></Modal_rename>)
@@ -113,9 +118,9 @@ const Home = () =>{
             ModalAddcatergory && (<Modal_addCatergory cg={cg_list} userId={Userdata.id} onClose={getCloseFromModal} oncgUpdate={getUpdate_cg_list}></Modal_addCatergory>)
         }
         {
-            ModalMoreShowOpen && (<Modal_show_inner />)
+            ModalMoreOpen && (<Modal_show_inner cg_open={cg_open} cg_index={cgmark_open_index} show={show_select} userId={Userdata.id} show_index={show_list_key} onClose={getCloseFromModal} oncgUpdate={getUpdate_cg_list} />)
         }
-        <div className="flex items-start">
+        <div className="flex items-start ">
             <div className="w-1/5 flex flex-col items-center bg-[#F6F7F8]  px-[32px] py-[40px] min-w-[210px] h-screen">
                 <div className="container">
                     <div className="border-b-2">
@@ -150,7 +155,7 @@ const Home = () =>{
                 </div>
             </div>
             <div className="w-4/5 bg-[#F6F7F8] h-screen">
-                <YourPlayerList data={Userdata} cg_open={cg_open} selected_index={cgmark_open_index} ></YourPlayerList>
+                <YourPlayerList data={Userdata} cg_open={cg_open} selected_index={cgmark_open_index}  on_you_player={open_more_modal}></YourPlayerList>
             </div>
         </div>
     </div>

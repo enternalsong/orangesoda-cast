@@ -17,7 +17,7 @@ const Modal_addCatergory = (props)=>{
       setCg(props.cg);
     },[])
     useEffect(()=>{
-      console.log(cg);
+      //console.log(cg);
     },[cg])
     //create firebase new category item
     const update_firebase_cg=(cg,userId)=>{  

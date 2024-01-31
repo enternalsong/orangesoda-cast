@@ -1,12 +1,12 @@
 import Player from './Player.jsx';
-import { useEffect , useState} from 'react';
+import { useEffect , useState ,useContext} from 'react';
+import { GalleryContext } from '../../store/GalleryContext.jsx';
 import { getEp } from '../../api/api.js';
 import emptyfolder from './../../assets/images/emptyfolder.png'
 const Greeting = () => {
     const [greet,setGreet] = useState("");
     useEffect(()=>{
         const hour = new Date().getHours();
-        console.log(hour);
         if(hour>=6 && hour <12){
             setGreet("早安")
         }else if( hour >=12 && hour < 17){setGreet("午安")}
@@ -26,12 +26,12 @@ const Gallery_show = (props)=>{
     },[])
     useEffect(()=>{
         setShow(props.show);
-        console.log(props.show);
+        //console.log(props.show);
     },[props.show])
-    console.log(show);
-    const btn_more=()=>{
-
-    }
+    //console.log(show);
+    const open_more_modal = (show,key)=>{
+        props.onGallery(true,show,key);
+    };
         if(Array.isArray(show)){
             if(typeof(show[0])==='object')
             {
@@ -51,7 +51,7 @@ const Gallery_show = (props)=>{
                                             <div className="text-[16px] max-h-[50px] text-left overflow-hidden ">{item.show.name}</div>
                                         </div>
                                         <div className="text-[14px] text-[#718096] h-[20px] overflow-hidden mb-[10px]">{item.show.publisher}</div>
-                                        <button className=" rounded-[4px] flex justify-start items-center gap-1  font-bold">
+                                        <button onClick={(e)=>{open_more_modal(item,key)} } className=" rounded-[4px] flex justify-start items-center gap-1  font-bold">
                                             <div className="flex justify-center  rounded-md border border-transparent px-2 py-1 bg-brand text-base  font-medium text-white shadow-sm hover:bg-caution focus:outline-none focus:border-caution focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 flex items-center">更多</div>
                                         </button>   
                                     </div>
@@ -81,19 +81,18 @@ const YourPlayerList = (props) =>{
     const [index,setIndex] = useState(0);
     useEffect(()=>{
     let result = setEpData(token,href);
-    console.log(props);
-    console.log(props.data);
     },[])
     useEffect(()=>{
-
         setIndex(props.selected_index);
         if(props.cg_open){
             const keys =Object.keys(props.cg_open);
-            console.log(Object.keys(props.cg_open));
+            //console.log(Object.keys(props.cg_open));
             setShow(props.cg_open[keys[0]]);
         }
     },[props.cg_open])
-
+    function getGallery(open,show,key){
+        props.on_you_player(open,show,key);
+    }
     async function setEpData(token,href){
         let result = await getEp(token,href);
         setEp(result);
@@ -119,7 +118,7 @@ const YourPlayerList = (props) =>{
 
             <div className="grid grid-cols-12 gap-4">
                 <div className="col-span-9 ">
-                    <Gallery_show show={show} index={props.selected_index}></Gallery_show>
+                    <Gallery_show show={show} index={props.selected_index} onGallery={getGallery}></Gallery_show>
                     {/* <div className="card">
                         <div className="card-image">1</div>
                         <div className="card-body">2</div>

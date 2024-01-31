@@ -13,11 +13,8 @@ const Callback = () =>{
         async function wait_token(){
             try{
                 const token = await getAccessToken(clientId, code,clientSecret);
-                console.log(token);
                 const profile = await fetchProfile(token);
-                console.log(profile); 
-                const user_save_show = await getUserShow(token)
-                
+                const user_save_show = await getUserShow(token)  
                 console.log(user_save_show.items);
                 if(user_save_show.items===null){
                     user_save_show.items=[""];
@@ -26,7 +23,6 @@ const Callback = () =>{
                 if(token){
                     getRefreshToken(clientId);
                     checkFirebase_user(`${profile.id}`,`${profile.display_name}`,`${profile.email}`,`${profile.product}`,cg_set,false);
-                    console.log("happy");
                     navigate('/');
                 }
             }catch(error){
@@ -38,7 +34,7 @@ const Callback = () =>{
     //const navigate = useNavigate();
 
     async function getAccessToken(clientId, code,clientSecret) {
-        console.log(code);
+        //console.log(code);
         const verifier = localStorage.getItem("verifier");
         const params = new URLSearchParams();
         params.append("client_id", clientId);
@@ -67,7 +63,6 @@ const Callback = () =>{
             method: "GET", headers: { Authorization: `Bearer ${token}` }
         });
         return await result.json();  
-        // TODO: Call Web API
     }
     return(
         <div>

@@ -1,7 +1,6 @@
 import { useState,useEffect } from 'react';
 import close_svg from './../../assets/images/close.svg'
-import {getDatabase,ref,set,remove,onValue, update} from 'firebase/database';
-import database from '../../api/firebase';
+import { rename_firebase_cg } from '../../api/firebase';
 const Modal_rename = (props)=>{
     const [ModalOpen, setModalOpen] = useState(false);
     const [cg_name,setCg_name] = useState("")
@@ -10,33 +9,16 @@ const Modal_rename = (props)=>{
         setModalOpen(false);
         props.onClose("rename",false);
     }
+    //handle change of input
     useEffect(()=>{
       setCg_name(Object.keys(props.selected_cg[1]));
     },[])
     const handleInputChange = (e)=>{
-      console.log(props.selected_cg);
-      console.log(props.selected_cg[1][Object.keys(props.selected_cg[1])]);
       setCg_name(e.target.value);
     }
-    //firebase update item name
-    const rename_firebase_cg = (cg_name,userId)=>{
-    //   const newRef =ref(database,`Spotify/user/${userId}/category/${props.selected_cg[0]}/${cg_name}`); 
-      console.log(props.selected_cg[1][Object.keys(props.selected_cg[1])]);
-      set(ref(database,`Spotify/user/${userId}/`+ "category/"+ props.selected_cg[0]),{
-        [cg_name]:props.selected_cg[1][Object.keys(props.selected_cg[1])]
-      }).then(()=>{
-          console.log("successful rename_firebase");
-      }).catch((error)=>{
-        console.log(`error:${error}`);
-      })
-      // remove(oldRef).then(()=>{
-      //   console.log("remove old ref");
-      //   }).catch((error)=>{
-      //     console.log(`error:${error}`);
-      // })
-    }
+    //handle change of the name let  rename category
     const fn_rename_cg =()=>{
-      rename_firebase_cg(cg_name,props.userId);
+      rename_firebase_cg(props.userId,cg_name,props.selected_cg);
       props.oncgUpdate("rename",false);
     }
     return(
@@ -55,7 +37,6 @@ const Modal_rename = (props)=>{
               >
                 &#8203;
               </span>
-  
               <div
                 className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
                 role="dialog"

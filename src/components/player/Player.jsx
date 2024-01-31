@@ -1,7 +1,6 @@
 
 
 const Player = (props) =>{
-
     return(
         <div className="player-bk" style={{fontFamily:'Noto Sans TC'}}>
             <div className="flex items-center justify-between pb-[16px] border-b-[1px] mb-[16px]">

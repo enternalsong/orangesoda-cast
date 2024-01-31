@@ -54,7 +54,7 @@ export async function getEp(token,href){
     let result = await axios.get(`${href}`,{
         headers: { Authorization: `Bearer ${token}` }
     }).then(res=>{
-        console.log(res.data);
+       // console.log(res.data);
         return res.data;
     }).catch(err=>{
         console.log(err)
@@ -72,4 +72,25 @@ export async function saveUserShow(token,ids){
         console.log(err)
     })
     return result;
+}
+
+export async function getShow_Ep(token,show_id){
+    let result = await axios.get(`https://api.spotify.com/v1/shows/${show_id}`,{
+        headers: { Authorization: `Bearer ${token}` }
+    }).then(res=>{
+        return res.data;
+    }).catch(err=>{
+        console.log(err)
+    })
+    return result;   
+}
+export async function deleteUserShow(token,show_id){
+    let result = await axios.delete(`https://api.spotify.com/v1/me/shows?ids=${show_id}`,{
+        headers: { Authorization: `Bearer ${token}`}
+    }).then(res=>{
+        return res.data;
+    }).catch(err=>{
+        console.log(err);
+    })
+    return result
 }

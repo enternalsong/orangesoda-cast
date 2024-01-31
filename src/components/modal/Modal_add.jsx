@@ -8,6 +8,7 @@ const Modal_add = (props)=>{
     const [searchText, setSearchText] =useState("");
     const [searchPtList,setSearchPtList] = useState([]);
     const [s_pt,setS_pt] = useState([]);
+    const [isClick_index,setIsClick_index] = useState();
     useEffect(()=>{
         console.log(searchPtList);
     },[searchPtList])
@@ -25,7 +26,8 @@ const Modal_add = (props)=>{
     const handleInputChange = (e)=>{
         setSearchText(e.target.value);
     }
-    const handleClick_pt = (pt)=>{   
+    const handleClick_pt = (pt,index)=>{   
+      setIsClick_index(index);
       console.log(pt);
       console.log(props.selected_cg);
       //initialize save data
@@ -35,16 +37,16 @@ const Modal_add = (props)=>{
     }
     const array_zero_check = (s_arr)=>{
       let newArray = [];
-      console.log(s_arr[0]);
+      //console.log(s_arr[0]);
       //check duplicate
       if(s_arr[0] === '')
-      {console.log("first add")
+      {//console.log("first add")
         newArray = [s_pt];
-        console.log(newArray);
+
       }
       else{
         newArray = [ ...s_arr,s_pt ];
-        console.log(newArray);
+
       }
       return(newArray);
     }
@@ -111,7 +113,7 @@ const Modal_add = (props)=>{
                                     <div className="grid grid-cols-4 gap-4">
                                         {searchPtList.map((pt,key)=>{
                                         return(
-                                            <div onClick={(e)=>{handleClick_pt(pt)}} className="p-2 border-white hover:border-caution border-[1px] rounded-[8px] shadow" key={key}>
+                                            <div onClick={(e)=>{handleClick_pt(pt,key)}} className={`p-2 border-white hover:border-caution border-[1px] rounded-[8px] shadow ${isClick_index===key ? "border-[2px] border-caution":""}`} key={key}>
                                                 <div className="flex flex-col justify-center">
                                                     <img className="card-image" src={pt.images[1].url}></img>
                                                     <div className="card-body">

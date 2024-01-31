@@ -16,11 +16,9 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-console.log(app);
 const database = getDatabase(app);
-console.log(database);
 const dbRef = ref(database,'Spotify');
-
+//write spotify data to the firebase
 export function writeUserData(userId, name, email,product,category) {  
     const db = getDatabase(app);
     set(ref(db, 'Spotify/user/' + userId), {
@@ -34,6 +32,7 @@ export function writeUserData(userId, name, email,product,category) {
         console.log(`error:${error}`);
     })
 }
+//chekc Firebase user is exist or not
   export function checkFirebase_user(userId,name,email,product,category,find){
     const dbRef = ref(database,'Spotify/user');
     onValue(dbRef, (snapshot) => {
@@ -59,6 +58,7 @@ export function writeUserData(userId, name, email,product,category) {
         onlyOnce: true
       });
 }
+//get Spotify userid data
   export  function get_firebase_cg(userId){
     const dbRef = ref(database,`Spotify/user/${userId}`);
     let cg = null;
@@ -92,7 +92,18 @@ onValue(dbRef, (snapshot) => {
   }, {
     onlyOnce: true
   });
-
+//rename firebase category
+export const rename_firebase_cg = (userId,cg_name,selected_cg)=>{
+  console.log(selected_cg[1][Object.keys(selected_cg[1])]);
+  set(ref(database,`Spotify/user/${userId}/`+ "category/"+ selected_cg[0]),{
+    [cg_name]:selected_cg[1][Object.keys(selected_cg[1])]
+  }).then(()=>{
+      console.log("successful rename_firebase");
+  }).catch((error)=>{
+    console.log(`error:${error}`);
+  })
+}
+//delete firebase cateogry
   export function delete_firebase_cg(userId,cg){
 
     update(ref(database,`Spotify/user/${userId}`),{
@@ -103,6 +114,7 @@ onValue(dbRef, (snapshot) => {
       console.log(`error:${error}`);
     })
   }
+//save new podcast to the category
   export function save_firebase_pt(userId,selected_cg,pt){
     const updates = {};
     updates[Object.keys(selected_cg[1])] = pt;
@@ -113,7 +125,17 @@ onValue(dbRef, (snapshot) => {
       console.log(`error msg: ${error}`);
     })
   }
+// delete podcast in your save category
+  export function delete_firebase_show(userId,cg_open,array,index){
+    console.log(array);
+    set(ref(database,`Spotify/user/${userId}/category/${index}/${Object.keys(cg_open)}`),array)
+    .then(()=>{
+      console.log("delete success");
+    }).catch((error)=>{
+      console.log(`error msg:${error}`);
+    })
 
+  }
 export default database;
 
 
