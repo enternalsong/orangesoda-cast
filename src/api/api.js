@@ -29,8 +29,8 @@ export async function getUserShow(token){
     let result = await axios.get(`https://api.spotify.com/v1/me/shows`,{
         headers: { Authorization: `Bearer ${token}` }
     }).then(res=>{
-        console.log(res);
-        console.log(res.data);
+        //console.log(res);
+        //console.log(res.data);
         return res.data
     }).catch(err=>{
         console.log(err)
