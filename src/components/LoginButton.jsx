@@ -22,7 +22,7 @@ async function redirectToAuthCodeFlow(clientId) {
     //local
     //params.append("redirect_uri", "http://localhost:5173/callback");
     //deploy
-    params.append("redirect_uri", "https://alpfacast.netlify.app/callback");
+    params.append("redirect_uri", "https://alphacasts.netlify.app/callback");
     params.append("scope", `user-read-private 
                             user-read-email
                             user-read-playback-state
