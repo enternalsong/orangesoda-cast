@@ -92,7 +92,7 @@ const Home = () =>{
         Modal_Open(type);
     }
     const cgamrk_click=(key)=>{
-        console.log(key);
+        //console.log(key);
         setCgopen(cg_list[key]);
         if(key!==cgmark_open_index)
         {setCgmark_open_index(key);}

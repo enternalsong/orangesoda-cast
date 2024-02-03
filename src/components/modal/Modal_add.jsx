@@ -10,7 +10,6 @@ const Modal_add = (props)=>{
     const [s_pt,setS_pt] = useState([]);
     const [isClick_index,setIsClick_index] = useState();
     useEffect(()=>{
-        console.log(searchPtList);
     },[searchPtList])
     async function SearchPodcast(token,text){
         //let result = getUserPlayerList(token);

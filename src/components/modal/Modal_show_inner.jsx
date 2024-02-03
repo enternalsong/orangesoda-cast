@@ -7,17 +7,14 @@ import { deleteUserShow } from '../../api/api';
 import { delete_firebase_show } from '../../api/firebase';
 const Modal_show_inner = (props)=>{
     const token = localStorage.getItem("accessToken");
-    const [s_show,sets_Show] = useState({});
     const [ ep_list,setEp_list] = useState([]);
-
-    
     useEffect(()=>{
-        console.log(props.show.show.id);
+        //console.log(props.show.show.id);
         getEp_list(token,props.show.show.id);
     },[props.show])
      async function getEp_list(token,show_id){
         let result = await getShow_Ep(token,show_id);
-        console.log(result.episodes.items);
+        //console.log(result.episodes.items);
         setEp_list(result.episodes.items);
     }
     const Modal_Close=()=>{
@@ -38,11 +35,14 @@ const Modal_show_inner = (props)=>{
         save_array = handleDeletePtArray(save_array,props.show_index);
         //console.log(save_array);
         if(props.cg_index ===0){
-            //spotify 
+            //spotify
+            if(props.show_index!==0)
+            {
             deleteUserShow(token,props.show.show.id);
             //firebase
             delete_firebase_show(props.userId, props.cg_open,save_array,props.cg_index);
             props.oncgUpdate("show_more",false);
+            }
         }
         else{
             delete_firebase_show(props.userId, props.cg_open,save_array,props.cg_index);

@@ -9,7 +9,7 @@ const Modal_delete = (props)=>{
     }
     const handle_delete=()=>{
       props.cg_list.splice(props.selected_cg[0],1);
-      console.log(props.cg_list)
+      //console.log(props.cg_list)
       delete_firebase_cg(props.userId,props.cg_list);
       props.oncgUpdate("delete",false);
     }

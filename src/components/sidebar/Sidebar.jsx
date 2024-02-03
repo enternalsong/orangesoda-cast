@@ -10,8 +10,7 @@ const Sidebar = (props)=>{
           };
     },[])
     const Modal_Open =(type)=>{
-        console.log(props.cg_select);
-        console.log(`Modal ${type} [${props.index}]:${Object.keys(props.cg_select)}`);
+        //console.log(`Modal ${type} [${props.index}]:${Object.keys(props.cg_select)}`);
         const selected = [props.index, props.cg_select]
         props.onModalOpen(type,selected);
     }
