@@ -41,9 +41,10 @@ const Callback = () =>{
         params.append("grant_type", "authorization_code");
         params.append("code", code);
         //local
-        //params.append("redirect_uri", "http://localhost:5173/callback");
+        params.append("redirect_uri", "http://localhost:5173/callback");
         //deploy
-        params.append("redirect_uri", "https://alphacasts.netlify.app/callback");
+        // params.append("redirect_uri", "https://alphacasts.netlify.app/callback");
+        //
         params.append("code_verifier",verifier);
         const result = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
@@ -51,6 +52,7 @@ const Callback = () =>{
             body: params
         });
         const { access_token,refresh_token } = await result.json();
+        console.log(access_token);
         //console.log(access_token);
         localStorage.setItem("accessToken",access_token);
         localStorage.setItem("refreshToken",refresh_token);
@@ -86,6 +88,7 @@ export const getRefreshToken = async (clientId) => {
        }),
      }
      const result = await fetch(url, payload);
+     console.log(result);
      const {access_token,refresh_token}  = await result.json();
      localStorage.setItem('accessToken', access_token);
      localStorage.setItem('refreshToken', refresh_token);
