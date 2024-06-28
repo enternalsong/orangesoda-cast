@@ -3,10 +3,12 @@ import { getShow_Ep } from '../../api/api';
 import close_svg from './../../assets/images/close.svg';
 import Bookmark_Icon from '../Icon/Bookmark_Icon';
 
-import { deleteUserShow } from '../../api/api';
+import { deleteUserShow,saveEpForUser} from '../../api/api';
 import { delete_firebase_show } from '../../api/firebase';
 const Modal_show_inner = (props)=>{
     const token = localStorage.getItem("accessToken");
+    const [color, setColor] = useState('red');
+    const [isSave,setIsSave] = useState(false);
     const [ ep_list,setEp_list] = useState([]);
     useEffect(()=>{
         //console.log(props.show.show.id);
@@ -19,6 +21,15 @@ const Modal_show_inner = (props)=>{
     }
     const Modal_Close=()=>{
         props.onClose("show_more",false);
+    }
+    const handle_bookmark_click = (ep_id,isSave)=>{
+        console.log('hurthurt');
+        if(!isSave){
+            setColor('#ff9f7d')
+        }
+        else{
+            setColor('none');
+        }
     }
     const handleDeletePtArray=(arr,index)=>{
         if(index===0){
@@ -116,8 +127,19 @@ const Modal_show_inner = (props)=>{
                                         <div className="col-span-4">
                                             <div className="flex justify-between items-center p-[5px]">
                                                 <div className="text-lg leading-6 font-medium text-gray-900">{ep.name}</div>
-                                                <div>
-                                                    <Bookmark_Icon></Bookmark_Icon> 
+                                                {/* <div onClick={(e)=>{handle_bookmark(ep.id)}}> */}
+                                                <div >
+                                                 {/* bookmarksvg */}
+                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill='red' xmlns="http://www.w3.org/2000/svg" onClick={(e)=>{handle_bookmark_click(ep.id,isSave)}}>
+                                                        <g id="Bookmark" clipPath="url(#clip0_38_14)">
+                                                        <path id="Vector" d="M14.1666 2.5H5.83329C4.91663 2.5 4.16663 3.25 4.16663 4.16667V17.5L9.99996 15L15.8333 17.5V4.16667C15.8333 3.25 15.0833 2.5 14.1666 2.5Z" fill="none" stroke="#FF7F50" strokeWidth="2"/>
+                                                        </g>
+                                                        <defs>
+                                                        <clipPath id="clip0_38_14">
+                                                        <rect width="20" height="20" fill="white"/>
+                                                        </clipPath>
+                                                        </defs>
+                                                    </svg>
                                                 </div>
                                             </div>
                                             <div>

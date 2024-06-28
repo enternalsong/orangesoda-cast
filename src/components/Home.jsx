@@ -144,6 +144,16 @@ const Home = () =>{
                                     )
                                 }))
                             }
+                            {
+                                <div>
+                                    <div onClick={(e)=>{cgamrk_click(cg_list.length)}}  className={`flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] mb-[12px] hover:border-brand ${ cg_list.length===cgmark_open_index ? 'bg-brand':''}`}>
+                                        <div className="flex items-center leading-[20px]">
+                                            <i className="mr-3 text-[21px]">❤️</i>
+                                            <div className="text-[14px] ">已收藏Podcast單集</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             <div onClick={(e)=>{Modal_Open("add_category")} } className="flex justify-between items-center border-[2px] border-black rounded-[12px] text-[14px]  p-[16px] w-full">
                                     <div className="flex items-center leading-[20px]" >
                                         <button ><img className="mr-3" src={add_icon} alt="add_icon"></img></button>
@@ -155,7 +165,7 @@ const Home = () =>{
                 </div>
             </div>
             <div className="w-4/5 bg-[#F6F7F8] h-screen">
-                <YourPlayerList data={Userdata} cg_open={cg_open} selected_index={cgmark_open_index}  on_you_player={open_more_modal}></YourPlayerList>
+                <YourPlayerList data={Userdata} cg_open={cg_open} cg_length={cg_list.length} selected_index={cgmark_open_index}  on_you_player={open_more_modal}></YourPlayerList>
             </div>
         </div>
     </div>

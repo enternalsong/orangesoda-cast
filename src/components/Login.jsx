@@ -31,7 +31,7 @@ const Login = () =>{
                         <img className="mb-4"src={mySvg} alt="My svg Image"></img>
                         <div className="mb-4"><span>Connecting Stories That Matter</span></div>
                         <LoginButton></LoginButton>
-                        <div>沒有帳號嗎？<Link to="/home"><span className="underline">註冊帳號</span></Link></div>                
+                        <div>沒有帳號嗎？<a to="/home"><span className="underline">註冊帳號</span></a></div>                
                 </div>
                     <Swiper className="flex flex-1 bg-carousel03"
                         modules={[Navigation,Pagination,Autoplay]}
