@@ -2,33 +2,68 @@ import { useState,useEffect,useContext } from 'react';
 import { getShow_Ep } from '../../api/api';
 import close_svg from './../../assets/images/close.svg';
 import Bookmark_Icon from '../Icon/Bookmark_Icon';
-
-import { deleteUserShow,saveEpForUser} from '../../api/api';
+import { deleteUserShow,saveEpForUser,removeEpForUser,getUserSaveEp} from '../../api/api';
 import { delete_firebase_show } from '../../api/firebase';
+
 const Modal_show_inner = (props)=>{
     const token = localStorage.getItem("accessToken");
     const [color, setColor] = useState('red');
     const [isSave,setIsSave] = useState(false);
     const [ ep_list,setEp_list] = useState([]);
+    const [ save_ep_list, setSave_ep_list] = useState(null);
+    const [save_id_list,setSave_id_list] = useState([]);
+    let save=0;
+    useEffect(()=>{
+        let saveEp = getSaveEp_list(token);
+        console.log("init");
+    },[])
+    useEffect(()=>{
+        console.log(save_ep_list);
+        if(Array.isArray(save_ep_list))
+        {
+            console.log("save id start");
+            saveEp_id_list();
+        }
+    },[save_ep_list])
     useEffect(()=>{
         //console.log(props.show.show.id);
         getEp_list(token,props.show.show.id);
+        getUserSaveEp(token);
     },[props.show])
      async function getEp_list(token,show_id){
         let result = await getShow_Ep(token,show_id);
-        //console.log(result.episodes.items);
+        console.log(result.episodes.items);
         setEp_list(result.episodes.items);
+    }
+    async function getSaveEp_list(token){
+        let result = await getUserSaveEp(token);
+        console.log(result);
+        setSave_ep_list(result.items);
+    }
+    const saveEp_id_list=()=>{
+        let epList = [];
+        
+        console.log(save_ep_list);
+
+            for(let i=0 ; i< save_ep_list.length;i++){
+                
+                {epList.push(save_ep_list[i].episode.id);}
+            }
+        setSave_id_list(epList);
+        
     }
     const Modal_Close=()=>{
         props.onClose("show_more",false);
     }
-    const handle_bookmark_click = (ep_id,isSave)=>{
-        console.log('hurthurt');
-        if(!isSave){
-            setColor('#ff9f7d')
+    async function handle_bookmark_click(token,ep_id){
+        console.log(token,ep_id);
+        let result = await saveEpForUser(token,ep_id);
+        console.log(result.name);
+        if(result.name){
+            getSaveEp_list(token);
         }
         else{
-            setColor('none');
+           // console.log("Ep not save , with some internal error")
         }
     }
     const handleDeletePtArray=(arr,index)=>{
@@ -60,6 +95,7 @@ const Modal_show_inner = (props)=>{
             props.oncgUpdate("show_more",false);
         }
     }
+    
     return(
         <div className="fixed z-10 inset-0 overflow-y-auto">
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -130,16 +166,11 @@ const Modal_show_inner = (props)=>{
                                                 {/* <div onClick={(e)=>{handle_bookmark(ep.id)}}> */}
                                                 <div >
                                                  {/* bookmarksvg */}
-                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill='red' xmlns="http://www.w3.org/2000/svg" onClick={(e)=>{handle_bookmark_click(ep.id,isSave)}}>
-                                                        <g id="Bookmark" clipPath="url(#clip0_38_14)">
-                                                        <path id="Vector" d="M14.1666 2.5H5.83329C4.91663 2.5 4.16663 3.25 4.16663 4.16667V17.5L9.99996 15L15.8333 17.5V4.16667C15.8333 3.25 15.0833 2.5 14.1666 2.5Z" fill="none" stroke="#FF7F50" strokeWidth="2"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_38_14">
-                                                        <rect width="20" height="20" fill="white"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
+                                                 {
+                                                     save_id_list.includes(ep.id)? 
+                                                    (<i   className="fas fa-bookmark  text-[#fe7f50] text-[20px]"></i>):
+                                                    (<i  onClick={(e)=>{handle_bookmark_click(token,ep.id)}} className="far fa-bookmark  text-[#fe7f50] text-[20px]"></i>)
+                                                 }
                                                 </div>
                                             </div>
                                             <div>

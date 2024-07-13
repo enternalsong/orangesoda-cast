@@ -15,6 +15,11 @@ body{
         line-height:150%;
         letter-spacing:0.2px;
     }
+    .bookmark-icon-notfill{
+        stroke: black; /* 設置描邊顏色 */
+        stroke-width: 2px; /* 設置描邊寬度 */
+        fill: none; /* 不填充顏色 */
+    }
     .player-bk{
         background-color: rgb(255, 255, 255);
         color: rgba(0, 0, 0, 0.87);

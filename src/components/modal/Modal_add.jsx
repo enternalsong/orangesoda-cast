@@ -127,7 +127,6 @@ const Modal_add = (props)=>{
                                     </div>
                                 </div>)
                             }
-                            
                       </div>
                     </div>
                 </div>

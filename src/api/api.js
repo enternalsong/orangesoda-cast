@@ -108,6 +108,20 @@ export async function getUserSaveEp(token){
 //save EP
 export async function saveEpForUser(token,ep_ids){
     let result = await axios.put(`https://api.spotify.com/v1/me/episodes`,{
+        ids:[ep_ids]
+    },{
+        headers: { Authorization: `Bearer ${token}`},
+    }).then(res=>{
+        return res.data;
+    }).catch(err=>{
+        console.log(err);
+    })
+    return result   
+}
+
+export async function removeEpForUser(token,ep_ids){
+    console.log(ep_ids)
+    let result = await axios.delete(`https://api.spotify.com/v1/me/episodes`,{
         headers: { Authorization: `Bearer ${token}`},
         ids:[
             ep_ids
