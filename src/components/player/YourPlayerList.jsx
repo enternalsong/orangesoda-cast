@@ -1,4 +1,5 @@
 import Player from './Player.jsx';
+import axios from 'axios';
 import { useEffect , useState ,useContext} from 'react';
 import { GalleryContext } from '../../store/GalleryContext.jsx';
 import { getEp ,getUserSaveEp } from '../../api/api.js';
@@ -22,22 +23,42 @@ const Greeting = () => {
 }
 const MyLoveEp = (props)=>{
     const token = localStorage.getItem('accessToken');
-    const [loveEp,setLoveEp] = useState([]);
+    const [loveEp,setLoveEp] = useState(null);
     useEffect(()=>{
-    },[])
-    useEffect(()=>{
-        setLoveEp(props.loveEp);
+        let saveEp = getSaveEp_list(token);
         console.log(props.loveEp);
-    },[props.loveEp])
+    },[])
 
-    if(Array.isArray(loveEp?.items)){
-        if(typeof(loveEp?.items[0])==='object'){
+    const saveEp_id_list=()=>{
+        let epList = [];
+        
+        console.log(loveEp);
+
+            for(let i=0 ; i< loveEp.length;i++){
+                {epList.push(loveEp[i].episode.id);}
+            }
+        setSave_id_list(epList);
+    }
+    async function getSaveEp_list(token){
+        let result = await getUserSaveEp(token);
+        console.log(result);
+        setLoveEp(result.items);
+    }
+    async function handle_bookmark_click_delete(token,ep_id){
+        console.log(token,ep_id);
+        let result = await axios.delete(`https://api.spotify.com/v1/me/episodes?ids=${ep_id}`,{
+            headers: { 'Authorization': `Bearer ` + token},
+        }).then(res=>{
+            getSaveEp_list(token);
+        }).catch(err=>{
+            console.log(err);
+        })      
+    }
+    if(Array.isArray(loveEp)){
             return(
                 <div>
-                    
-  
                 {
-                loveEp?.items.map((item,key)=>(
+                loveEp.map((item,key)=>(
                     <div key={key} className="grid grid-cols-12 gap-4 mb-4 p-3 border-b-[2px]">
                         {
                         <div className="col-span-3">
@@ -46,7 +67,14 @@ const MyLoveEp = (props)=>{
                         </div>
                         }
                         <div className="col-span-9 height-[140px]">
-                            <h1 className="mb-3 text-[18px]">{item?.episode.name}</h1>
+                            <div className="flex justify-between items-center p-[5px]">
+                                <h1 className="mb-3 text-[18px]">{item?.episode.name}</h1>
+                                <div >
+                                                    {/* bookmarksvg */}
+                                                                      
+                                    <i  onClick={(e)=>{handle_bookmark_click_delete(token,item.episode.id)}} className="fas fa-bookmark  text-[#fe7f50] text-[20px]"></i>                  
+                                </div>
+                            </div>
                             <div className="text-[#71809] font-[500] text-[14px] font-sans text-hidden">{item?.episode.description}</div>
                             <div className="playerlist d-flex">
                                 <button></button>
@@ -58,9 +86,8 @@ const MyLoveEp = (props)=>{
                </div>
             )
         }
-    }
 
-    if(loveEp.items=null){
+    else if(loveEp===null){
         return(
             <div className="flex flex-col items-center justify-center ">
             <img className="w-[56px] h-[56px]" src={emptyfolder}></img>

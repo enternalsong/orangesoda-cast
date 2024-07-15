@@ -1,6 +1,9 @@
 import { useState,useEffect,useContext } from 'react';
+import axios from 'axios';
 import { getShow_Ep } from '../../api/api';
 import close_svg from './../../assets/images/close.svg';
+import player_play from './../../assets/images/player_play.svg';
+import player_stop from './../../assets/images/player_stop.svg';
 import Bookmark_Icon from '../Icon/Bookmark_Icon';
 import { deleteUserShow,saveEpForUser,removeEpForUser,getUserSaveEp} from '../../api/api';
 import { delete_firebase_show } from '../../api/firebase';
@@ -46,25 +49,34 @@ const Modal_show_inner = (props)=>{
         console.log(save_ep_list);
 
             for(let i=0 ; i< save_ep_list.length;i++){
-                
                 {epList.push(save_ep_list[i].episode.id);}
             }
         setSave_id_list(epList);
-        
     }
     const Modal_Close=()=>{
         props.onClose("show_more",false);
     }
     async function handle_bookmark_click(token,ep_id){
         console.log(token,ep_id);
-        let result = await saveEpForUser(token,ep_id);
-        console.log(result.name);
-        if(result.name){
+        let result = await axios.put(`https://api.spotify.com/v1/me/episodes`,{
+            ids:[ep_id]
+        },{
+            headers: { Authorization: `Bearer ${token}`},
+        }).then(res=>{
             getSaveEp_list(token);
-        }
-        else{
-           // console.log("Ep not save , with some internal error")
-        }
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
+    async function handle_bookmark_click_delete(token,ep_id){
+        console.log(token,ep_id);
+        let result = await axios.delete(`https://api.spotify.com/v1/me/episodes?ids=${ep_id}`,{
+            headers: { 'Authorization': `Bearer ` + token},
+        }).then(res=>{
+            getSaveEp_list(token);
+        }).catch(err=>{
+            console.log(err);
+        })      
     }
     const handleDeletePtArray=(arr,index)=>{
         if(index===0){
@@ -76,6 +88,7 @@ const Modal_show_inner = (props)=>{
             return arr
         }
     }
+    
     const handleDelete =()=>{
         let save_array = props.cg_open[Object.keys(props.cg_open)]
         save_array = handleDeletePtArray(save_array,props.show_index);
@@ -95,7 +108,25 @@ const Modal_show_inner = (props)=>{
             props.oncgUpdate("show_more",false);
         }
     }
-    
+    function millisecondsToTime(ms) {
+        // 確保輸入為數字
+        if (typeof ms !== 'number') {
+          return 'Invalid input';
+        }
+      
+        const seconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+      
+        const remainingSeconds = seconds % 60;
+        const remainingMinutes = minutes % 60;
+        if(hours===0){
+            return `${remainingMinutes}分鐘 ${remainingSeconds}秒`;
+        }
+        else{
+        return `${hours}小時 ${remainingMinutes}分鐘 ${remainingSeconds}秒`;
+        }
+      }
     return(
         <div className="fixed z-10 inset-0 overflow-y-auto">
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -168,13 +199,20 @@ const Modal_show_inner = (props)=>{
                                                  {/* bookmarksvg */}
                                                  {
                                                      save_id_list.includes(ep.id)? 
-                                                    (<i   className="fas fa-bookmark  text-[#fe7f50] text-[20px]"></i>):
+                                                    (<i  onClick={(e)=>{handle_bookmark_click_delete(token,ep.id)}} className="fas fa-bookmark  text-[#fe7f50] text-[20px]"></i>):
                                                     (<i  onClick={(e)=>{handle_bookmark_click(token,ep.id)}} className="far fa-bookmark  text-[#fe7f50] text-[20px]"></i>)
                                                  }
                                                 </div>
-                                            </div>
+                                            </div>  
                                             <div>
                                                 <div className="text-[#718096] p-[2px] ">{ep.description}</div>
+                                                <div className="flex items-center">
+                                                    <button className="mr-[5px]">
+                                                        <img src={player_play}></img>
+                                                    </button>
+                                                    <div className=" p-[2px] mr-[5px]">{ep.release_date}</div>
+                                                    <div className="">{millisecondsToTime(ep.duration_ms)}</div>
+                                                </div>
                                             </div>
                                         </div>      
                                     </div>
