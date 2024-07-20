@@ -3,7 +3,7 @@ const clientId =import.meta.env.VITE_API_CLIENT_ID; // Replace with your client 
 const params = new URLSearchParams(window.location.search);
 const LoginButton=()=>{
     return(
-        <button className="px-[120px] py-[16px] bg-green-login hover:bg-green-hoverLogin text-white font-bold  rounded-[16px] mb-[25px]" onClick={()=>{handleLogin()}}>使用Spotify帳號登入</button> 
+        <button className="px-[30px] py-[10px] sm:px-[120px] sm:py-[16px] bg-green-login hover:bg-green-hoverLogin text-white font-bold  rounded-[16px] mb-[25px]" onClick={()=>{handleLogin()}}>使用Spotify帳號登入</button> 
     )
 };
 async function handleLogin(){

@@ -6,6 +6,16 @@
   text-align: center;
 }
 
+.truncate {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ep-card-content .ep-book-mark-mobile{
+  display: none;
+}
 .logo {
   height: 6em;
   padding: 1.5em;

@@ -27,7 +27,7 @@ const Sidebar = (props)=>{
             <button className="relative" onClick={toggleSidebar}><img className=" w-[20px] "src={more_icon} alt="more_icon"></img>
             {/* Side Bar */}
             <div ref={sidebarRef}>
-                <div className={`absolute left-[10px] top-[10px] w-[120px] bg-white text-black  ${isOpen ? 'block' : 'hidden'}`}>
+                <div className={` sm:absolute sm:left-[10px] sm:top-[10px] w-[120px] bg-white text-black  ${isOpen ? 'block' : 'hidden'}`}>
                     {
                         props.index >0 ? (
                         <div>

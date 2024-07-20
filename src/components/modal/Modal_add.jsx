@@ -80,12 +80,12 @@ const Modal_add = (props)=>{
               </span>
   
               <div
-                className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-[50rem] sm:w-full"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="modal-headline"
               >
-                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div className="bg-white px-2 pt-5 pb-4 sm:p-6 sm:pb-4 ">
                     <div className="mt-3 sm:mt-0  sm:text-left">
                         <div className="w-full flex justify-between p-[5px] border-b-[2px]">
                             <h3
@@ -109,15 +109,15 @@ const Modal_add = (props)=>{
                             {searchPtList.length>0 &&(
                                 <div>
                                     <div>搜尋結果</div>
-                                    <div className="grid grid-cols-4 gap-4">
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                         {searchPtList.map((pt,key)=>{
                                         return(
                                             <div onClick={(e)=>{handleClick_pt(pt,key)}} className={`p-2 border-white hover:border-caution border-[1px] rounded-[8px] shadow ${isClick_index===key ? "border-[2px] border-caution":""}`} key={key}>
                                                 <div className="flex flex-col justify-center">
                                                     <img className="card-image" src={pt.images[1].url}></img>
                                                     <div className="card-body">
-                                                        <div className="max-h-[50px] overflow-hidden mb-2">{pt.name}</div>
-                                                        <div className="text-[#93989A]">{pt.publisher}</div>
+                                                        <div className="max-h-[50px] overflow-hidden mb-2 ">{pt.name}</div>
+                                                        <div className="text-[#93989A] text-[8px] sm:text-[14px]">{pt.publisher}</div>
                                                     </div>
                                                 </div>
                                             </div>

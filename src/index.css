@@ -36,6 +36,16 @@ body{
         width: 100%;
         height:64px;
     }
+    .text-hidden-inner{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre-line;
+        width: 100%;
+        height:72px;
+    }
+    .swiper-button-prev:after, .swiper-button-next:after {
+        display:none;
+    }
     .player-ep-name{
         overflow: hidden;
         color: #111;
@@ -70,6 +80,12 @@ body{
         padding:8px;
         border-radius: 8px;
         background: #FFF;
+        box-shadow: 24px 8px 24px 0px rgba(199, 199, 199, 0.24);    
+    }
+    .ui_card_dark{
+        padding:8px;
+        border-radius: 8px;
+        background: #4d5156;
         box-shadow: 24px 8px 24px 0px rgba(199, 199, 199, 0.24);    
     }
 }

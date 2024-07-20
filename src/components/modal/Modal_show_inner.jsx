@@ -4,11 +4,13 @@ import { getShow_Ep } from '../../api/api';
 import close_svg from './../../assets/images/close.svg';
 import player_play from './../../assets/images/player_play.svg';
 import player_stop from './../../assets/images/player_stop.svg';
-import Bookmark_Icon from '../Icon/Bookmark_Icon';
 import { deleteUserShow,saveEpForUser,removeEpForUser,getUserSaveEp} from '../../api/api';
 import { delete_firebase_show } from '../../api/firebase';
+import { AppContext } from '../../store/AppProvider';
 
 const Modal_show_inner = (props)=>{
+    const { playerEpItem, setPlayerEpItem }  = useContext(AppContext);
+    const { player_state, setPlayer_state }  = useContext(AppContext);
     const token = localStorage.getItem("accessToken");
     const [color, setColor] = useState('red');
     const [isSave,setIsSave] = useState(false);
@@ -42,6 +44,10 @@ const Modal_show_inner = (props)=>{
         let result = await getUserSaveEp(token);
         console.log(result);
         setSave_ep_list(result.items);
+    }
+    const player_playing = (play_ep) =>{
+        setPlayerEpItem(play_ep);
+        setPlayer_state('playing');
     }
     const saveEp_id_list=()=>{
         let epList = [];
@@ -151,13 +157,13 @@ const Modal_show_inner = (props)=>{
             aria-labelledby="modal-headline"
           >
             <div className="  bg-white  pt-5 pb-4  sm:pb-4">
-                <div className="grid grid-cols-5 gap-4 mt-3 sm:mt-0 px-4  sm:text-left mb-[8px]">
-                    <div className="col-span-1 ">
+                <div className="sm:grid sm:grid-cols-5 gap-4 mt-3 sm:mt-0 px-4  sm:text-left mb-[8px]">
+                    <div className="sm:col-span-1 ">
                         <div className="border-[1px]  mb-[8px] rounded-[11px]">
                         <img className="rounded-[11px]" src={props.show.show.images[1].url}></img>
                         </div>
                     </div>
-                    <div className="col-span-4">
+                    <div className="sm:col-span-4">
                         <div className="flex justify-between p-[5px] border-b-[2px]">
                             <h3
                                 className="text-lg leading-6 font-medium text-gray-900" 
@@ -166,7 +172,7 @@ const Modal_show_inner = (props)=>{
                             >
                                 {props.show.show.name}
                             </h3>
-                            <button onClick={Modal_Close}><img src={close_svg}></img></button>
+                            <button className="absolute sm:relative top-[5px] right-[5px]"onClick={Modal_Close}><img src={close_svg}></img></button>
                         </div>
                             <div className="text-[#93989A] text-[12px] p-[4px]">{props.show.show.publisher}</div>
                             <div className="text-[#718096] p-[2px]">{props.show.show.description}</div>
@@ -178,40 +184,50 @@ const Modal_show_inner = (props)=>{
                 </div>
                 <div className="border-[1px] "></div>
                 <div className="mt-2">
-                    <div className="flex flex-col p-[16px] ">
+                    <div className="ep-card-content flex flex-col p-[16px] ">
                         {
                            typeof ep_list === 'object' &&(
                             ep_list.map((ep,key)=>{
                                 return(
-                                    <div key={key} className="grid grid-cols-5 p-[16px] border-[1px] rounded-[16px] mb-[16px]">
-                                        <div className="col-span-1 p-[4px]">
+                                    <div key={key} className="sm:grid sm:grid-cols-5 p-[16px] border-[1px] rounded-[16px] mb-[16px]">
+                                        <div className="sm:col-span-1 p-[4px]">
                                             <div>
-                                            <div className=" rounded-[11px] flex items-center">
-                                            <img className="w-[118px] h-[118px] border-[1px] rounded-[11px]" src={ep.images[1].url}></img>
+                                            <div className="hidden sm:block rounded-[11px] flex items-center">
+                                            <img className="w-[200px] h-[150px] border-[1px] rounded-[11px]" src={ep.images[1].url}></img>
                                             </div>
                                             </div>
                                         </div>
-                                        <div className="col-span-4">
-                                            <div className="flex justify-between items-center p-[5px]">
+                                        <div className="sm:col-span-4">
+                                            <div className="sm:flex justify-between items-center p-[5px]">
                                                 <div className="text-lg leading-6 font-medium text-gray-900">{ep.name}</div>
                                                 {/* <div onClick={(e)=>{handle_bookmark(ep.id)}}> */}
-                                                <div >
+                                                <div className=" hidden sm:block bottom-[10px]">
                                                  {/* bookmarksvg */}
-                                                 {
+                                                 {/* {
                                                      save_id_list.includes(ep.id)? 
-                                                    (<i  onClick={(e)=>{handle_bookmark_click_delete(token,ep.id)}} className="fas fa-bookmark  text-[#fe7f50] text-[20px]"></i>):
-                                                    (<i  onClick={(e)=>{handle_bookmark_click(token,ep.id)}} className="far fa-bookmark  text-[#fe7f50] text-[20px]"></i>)
-                                                 }
+                                                    (<i  onClick={(e)=>{handle_bookmark_click_delete(token,ep.id)}} className="sm:block fas fa-bookmark  text-[#fe7f50] text-[20px]"></i>):
+                                                    (<i  onClick={(e)=>{handle_bookmark_click(token,ep.id)}} className="sm:block far fa-bookmark  text-[#fe7f50] text-[20px]"></i>)
+                                                 } */}
                                                 </div>
                                             </div>  
                                             <div>
-                                                <div className="text-[#718096] p-[2px] ">{ep.description}</div>
+                                                <div className="text-[#718096] p-[2px] font-sans  text-hidden-inner mb-[15px]">{ep.description}</div>
                                                 <div className="flex items-center">
-                                                    <button className="mr-[5px]">
-                                                        <img src={player_play}></img>
+                                                    <button  onClick={(e)=>{player_playing(ep)}}className="mr-[5px]">
+                                                        {
+                                                            (player_state==="playing" && ep.id === playerEpItem.id)  ?
+                                                            (<img src={player_stop}></img>):
+                                                            (<img src={player_play}></img>)
+                                                        }
+                                                        
                                                     </button>
                                                     <div className=" p-[2px] mr-[5px]">{ep.release_date}</div>
                                                     <div className="">{millisecondsToTime(ep.duration_ms)}</div>
+                                                    {
+                                                     save_id_list.includes(ep.id)? 
+                                                    (<i  onClick={(e)=>{handle_bookmark_click_delete(token,ep.id)}} className="absolute right-[35px]  sm:hidden fas fa-bookmark  text-[#fe7f50] text-[20px]"></i>):
+                                                    (<i  onClick={(e)=>{handle_bookmark_click(token,ep.id)}} className="absolute right-[35px]  sm:hidden m far fa-bookmark  text-[#fe7f50] text-[20px]"></i>)
+                                                    }
                                                 </div>
                                             </div>
                                         </div>      

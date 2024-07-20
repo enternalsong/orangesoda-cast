@@ -1,6 +1,7 @@
-import { useState , useEffect , useRef,useReducer  } from 'react';
+import { useState , useEffect , useRef,useContext} from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import spotifyIcon from './../assets/images/spotify-icon.png';
 import mySvg from './../assets/images/logo.svg';
 import add_icon from './../assets/images/add.svg';
 import YourPlayerList from './player/YourPlayerList';
@@ -14,9 +15,12 @@ import Sidebar from './sidebar/Sidebar.jsx';
 import { getDatabase,ref,set,onValue} from 'firebase/database';
 import database,{get_firebase_cg,delete_firebase_cg} from '../api/firebase';
 import axios from 'axios';
+import { AppContext } from '../store/AppProvider.jsx';
 
 const Home = () =>{
     const token = localStorage.getItem("accessToken");
+    const {isDark_mode,setIsDark_mode }  = useContext(AppContext);
+    const {username,setUsername }  = useContext(AppContext);
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const [ImageUrl ,setImageUrl ] = useState('');
@@ -62,6 +66,7 @@ const Home = () =>{
         }).then(res =>{
             //setImageUrl(res.data.images[0].url);
             setUserdata(res.data);                    //get spotify profile
+            setUsername(res.data.display_name);
             get_firebase_cg(res.data.id)//get firebase category
         }).catch(err=>{
             console.log(err);
@@ -105,26 +110,29 @@ const Home = () =>{
     return(
 
     <div>
-        {
+        {isDark_mode ? 
+        ( 
+            <div className="bg-[#202124] h-[100vh] w-[100vw] fixed overflow-auto">
+            {
             ModalRenameOpen && (<Modal_rename selected_cg={cg_select} userId={Userdata.id} oncgUpdate={getUpdate_cg_list} onClose={getCloseFromModal}></Modal_rename>)
-        }
-        {
+            }
+            {
             ModalDeleteOpen && (<Modal_delete cg_list={cg_list} selected_cg={cg_select} userId={Userdata.id} onClose={getCloseFromModal} oncgUpdate={getUpdate_cg_list}></Modal_delete>)
-        }
-        {
+            }
+            {
             ModalAddOpen && (<Modal_add selected_cg={cg_select} userId={Userdata.id}  oncgUpdate={getUpdate_cg_list} onClose={getCloseFromModal}></Modal_add>)
-        }
-        {
+            }
+            {
             ModalAddcatergory && (<Modal_addCatergory cg={cg_list} userId={Userdata.id} onClose={getCloseFromModal} oncgUpdate={getUpdate_cg_list}></Modal_addCatergory>)
-        }
-        {
+            }
+            {
             ModalMoreOpen && (<Modal_show_inner cg_open={cg_open} cg_index={cgmark_open_index} show={show_select} userId={Userdata.id} show_index={show_list_key} onClose={getCloseFromModal} oncgUpdate={getUpdate_cg_list} />)
-        }
-        <div className="flex items-start ">
-            <div className="w-1/5 flex flex-col items-center bg-[#F6F7F8]  px-[32px] py-[40px] min-w-[210px] h-screen">
-                <div className="container">
-                    <div className="border-b-2">
-                        <img className="mb-4 h-[30px] "src={mySvg} alt="My svg Image"></img>
+            }
+        <div className="sm:flex sm:items-start bg-[#202124] text-[white]">
+            <div className=" sm:px-[32px] pt-[20px] pb-[20px] sm:pt-[40px] pl-[24px] pr-[24px] sm:w-1/5 sm:flex sm:flex-col items-center bg-[#202124] sm:h-screen  sm:py-[40px] sm:min-w-[210px] ">
+                <div className="">
+                    <div className="flex items-center justify-center border-b-2 mb-[10px] ">
+                        <img className=" mb-4 h-[30px] top-3 "src={mySvg} alt="My svg Image"></img>
                     </div>
                     <div className="mt-[40px]">
                         <div className="container flex flex-col imtes-center">
@@ -133,9 +141,13 @@ const Home = () =>{
                                 cg_list.length > 0 && ( cg_list.map((item,key)=>{
                                     return(
                                         <div key={key}>
-                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] mb-[12px] hover:border-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
+                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] sm:mb-[12px] hover:border-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
                                                 <div className="flex items-center leading-[20px]">
-                                                    <i className="mr-3 text-[21px]">📚</i>
+                                                    {
+                                                        key===0 ? 
+                                                        (<img href={spotifyIcon}></img>):
+                                                        (<i className="mr-3 text-[21px]">📚</i>)
+                                                    }
                                                     <div className="text-[14px] ">{Object.keys(cg_list[key])}</div>
                                                 </div>
                                                 <Sidebar onModalOpen={getOpenModalFromChild} cg_select={cg_list[key]} index={key}></Sidebar>
@@ -164,11 +176,81 @@ const Home = () =>{
                     </div>
                 </div>
             </div>
-            <div className="w-4/5 bg-[#F6F7F8] h-screen">
+            <div className="sm:w-4/5 bg-[#202124] h-screen">
                 <YourPlayerList data={Userdata} cg_open={cg_open} cg_length={cg_list.length} selected_index={cgmark_open_index}  on_you_player={open_more_modal}></YourPlayerList>
             </div>
         </div>
-    </div>
+        </div>):
+        (<div>    
+            {
+            ModalRenameOpen && (<Modal_rename selected_cg={cg_select} userId={Userdata.id} oncgUpdate={getUpdate_cg_list} onClose={getCloseFromModal}></Modal_rename>)
+        }
+        {
+            ModalDeleteOpen && (<Modal_delete cg_list={cg_list} selected_cg={cg_select} userId={Userdata.id} onClose={getCloseFromModal} oncgUpdate={getUpdate_cg_list}></Modal_delete>)
+        }
+        {
+            ModalAddOpen && (<Modal_add selected_cg={cg_select} userId={Userdata.id}  oncgUpdate={getUpdate_cg_list} onClose={getCloseFromModal}></Modal_add>)
+        }
+        {
+            ModalAddcatergory && (<Modal_addCatergory cg={cg_list} userId={Userdata.id} onClose={getCloseFromModal} oncgUpdate={getUpdate_cg_list}></Modal_addCatergory>)
+        }
+        {
+            ModalMoreOpen && (<Modal_show_inner cg_open={cg_open} cg_index={cgmark_open_index} show={show_select} userId={Userdata.id} show_index={show_list_key} onClose={getCloseFromModal} oncgUpdate={getUpdate_cg_list} />)
+        }
+        <div className="sm:flex sm:items-start ">
+            <div className=" sm:px-[32px] pt-[20px] pb-[20px] sm:pt-[40px] pl-[24px] pr-[24px] sm:w-1/5 sm:flex sm:flex-col items-center bg-[#F6F7F8] sm:h-screen  sm:py-[40px] sm:min-w-[210px] ">
+                <div className="container">
+                    <div className="flex items-center justify-center border-b-2 mb-[10px] ">
+                        <img className=" mb-4 h-[30px] top-3 "src={mySvg} alt="My svg Image"></img>
+                    </div>
+                    <div className="mt-[40px]">
+                        <div className="container flex flex-col imtes-center">
+                            {/* one button */}
+                            {
+                                cg_list.length > 0 && ( cg_list.map((item,key)=>{
+                                    return(
+                                        <div key={key}>
+                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] sm:mb-[12px] hover:border-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
+                                                <div className="flex items-center leading-[20px]">
+                                                    {
+                                                        key===0 ? 
+                                                        (<img href={spotifyIcon}></img>):
+                                                        (<i className="mr-3 text-[21px]">📚</i>)
+                                                    }
+                                                    <div className="text-[14px] ">{Object.keys(cg_list[key])}</div>
+                                                </div>
+                                                <Sidebar onModalOpen={getOpenModalFromChild} cg_select={cg_list[key]} index={key}></Sidebar>
+                                             </div>
+                                        </div>
+                                    )
+                                }))
+                            }
+                            {
+                                <div>
+                                    <div onClick={(e)=>{cgamrk_click(cg_list.length)}}  className={`flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] mb-[12px] hover:border-brand ${ cg_list.length===cgmark_open_index ? 'bg-brand':''}`}>
+                                        <div className="flex items-center leading-[20px]">
+                                            <i className="mr-3 text-[21px]">❤️</i>
+                                            <div className="text-[14px] ">已收藏Podcast單集</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div onClick={(e)=>{Modal_Open("add_category")} } className="flex justify-between items-center border-[2px] border-black rounded-[12px] text-[14px]  p-[16px] w-full">
+                                    <div className="flex items-center leading-[20px]" >
+                                        <button ><img className="mr-3" src={add_icon} alt="add_icon"></img></button>
+                                        <div className="text-[14px]">新增分類</div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="sm:w-4/5 bg-[#F6F7F8] h-screen">
+                <YourPlayerList data={Userdata} cg_open={cg_open} cg_length={cg_list.length} selected_index={cgmark_open_index}  on_you_player={open_more_modal}></YourPlayerList>
+            </div>
+        </div>
+    </div>)}
+</div>
     )
 }
 export default Home;
