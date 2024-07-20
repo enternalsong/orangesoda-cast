@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import carousel01 from './../assets/images/carousel01.png';
 import carousel02 from './../assets/images/carousel02.png';
 import carousel03 from './../assets/images/carousel03.png';
+import orangesodacast from './../assets/images/orangesoda-cast.png'
 //import { useNavigate } from 'react-router-dom';
 const Login = () =>{
     const token = localStorage.getItem("accessToken");
@@ -27,9 +28,13 @@ const Login = () =>{
     },[])
     return(
         <div className="h-screen flex flex-row justify-center bg-white">
-                <div className="hidden sm:h-[screen] md:pt-[350px] sm:flex sm:flex-1 flex-col xl:pt-[0px]  xl:justify-center items-center   bg-white ">
-                        <img className="mb-4"src={mySvg} alt="My svg Image"></img>
-                        <div className="mb-4"><span>Connecting Stories That Matter</span></div>
+                <div className="hidden sm:h-[screen]  sm:flex sm:flex-1 sm:pt-[250px] sm:items-center flex-col xl:pt-[0px]  xl:justify-center items-center   bg-white ">
+                        <div className="flex flex-row items-center">
+                            <img className="w-[50px] h-[70px] mb-4" src={orangesodacast} alt="My svg Image"></img>
+                            <div className="text-[25px] text-[black]">OrangeSoda Cast</div>
+                        </div>
+                        
+                        <div className="mb-4"><span>Connecting Stories That Matter Is Juicy</span></div>
                         <LoginButton></LoginButton>
                         <div>沒有帳號嗎？<a href="https://www.spotify.com/tw/signup?flow_id=a509106b-1dea-4a14-ab29-36d5956f2e52%3A1721379842&forward_url=https%3A%2F%2Faccounts.spotify.com%2Fauthorize%3Fscope%3Duser-read-private%2B%250A%2B%2Buser-read-email%250A%2Buser-read-playback-state%250A%2Bplaylist-read-private%250A%2Bplaylist-modify-public%2Bplaylist-modify-private%2Buser-library-read%2Buser-library-modify%26response_type%3Dcode%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A5173%252Fcallback%26code_challenge_method%3DS256%26client_id%3Dfb776a0db69e4d0295a2297fd43e4f01%26code_challenge%3DPNPS9Uyuoj6Pqa1YWodsrGly0cOlisfsO6szY0xQOk0%26flow_ctx%3Da509106b-1dea-4a14-ab29-36d5956f2e52%253A1721379842"><span className="underline">註冊帳號</span></a></div>                
                 </div>
@@ -47,7 +52,10 @@ const Login = () =>{
                         <SwiperSlide>
                             <div className="h-full  pt-[20px] flex flex-col items-center bg-carousel01 text-white">
                                 <img className="max-w-[250px] w-full mb-[20px]" src={carousel01} />
-                                <img className="mb-[40px]"src={mySvg} alt="My svg Image"></img>
+                                <div className="flex flex-row items-center">
+                                    <img className="w-[50px] h-[70px] mb-4" src={orangesodacast} alt="My svg Image"></img>
+                                    <div className="text-[25px] text-white">OrangeSoda Cast</div>
+                                </div>
                                 <div className="text-[42px] mb-6">鼓舞人心的故事</div>
                                 <p className="text-[16px]">從非凡的人生故事和成功經歷中獲得靈感</p>
                             </div>
@@ -55,7 +63,10 @@ const Login = () =>{
                         <SwiperSlide>
                             <div className="h-full  pt-[20px]  flex flex-col items-center bg-carousel02 text-white">
                                 <img className="max-w-[250px] w-full  mb-[20px]" src={carousel02}/>
-                                <img className="mb-[40px]"src={mySvg} alt="My svg Image"></img>
+                                <div className="flex flex-row items-center">
+                                    <img className="w-[50px] h-[70px] mb-4" src={orangesodacast} alt="My svg Image"></img>
+                                    <div className="text-[25px] text-white">OrangeSoda Cast</div>
+                                </div>
                                 <div className="text-[42px] mb-6">輕鬆分類與管理</div>
                                     <p className="text-[16px]">一目了然的分類，讓收藏的Podcast保持整潔</p>
                             </div>
@@ -63,7 +74,10 @@ const Login = () =>{
                         <SwiperSlide>
                             <div className="h-full pt-[20px] flex flex-col items-center bg-carousel03 text-white">
                                 <img className="max-w-[250px] w-full mb-[20px]" src={carousel03}/>
-                                <img className="mb-[40px]"src={mySvg} alt="My svg Image"></img>
+                                <div className="flex flex-row items-center">
+                                    <img className="w-[50px] h-[70px] mb-4" src={orangesodacast} alt="My svg Image"></img>
+                                    <div className="text-[25px] text-white">OrangeSoda Cast</div>
+                                </div>
                                 <div className="text-[42px] mb-6">Spotify 快速同步</div>
                                     <p className="text-[16px]">透過Spotify登入，即刻同步您的收藏</p>
                                     <p className="text-[16px]">隨時隨地收聽</p>
@@ -71,7 +85,10 @@ const Login = () =>{
                         </SwiperSlide>
                         <SwiperSlide>
                         <div className="h-screen sm:hidden pt-[150px] flex flex-col items-center  bg-[#fff] text-[black]">
-                            <img className="mb-4"src={mySvg} alt="My svg Image"></img>
+                        <div className="flex flex-row items-center">
+                                    <img className="w-[50px] h-[70px] mb-4" src={orangesodacast} alt="My svg Image"></img>
+                                    <div className="text-[25px] text-[black]">OrangeSoda Cast</div>
+                                </div>
                             <div className="mb-4"><span>Connecting Stories That Matter</span></div>
                             <LoginButton></LoginButton>
                             <div className="text-black">沒有帳號嗎？<a to="/home"><span className=" text-[black] underline">註冊帳號</span></a></div> 

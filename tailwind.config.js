@@ -9,7 +9,7 @@ export default {
         positive:'#4CAF50',
         negative:'#FF5050',
         caution:'#F6AE2D',
-        carousel01:'#24262f',
+        carousel01:'#274869',
         carousel02:'#2E3932',
         carousel03:'#063540',
         copyright: '#AAA',

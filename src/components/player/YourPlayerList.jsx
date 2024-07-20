@@ -1,7 +1,8 @@
 import Player from './Player.jsx';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../store/AppProvider';
-import { useEffect , useState ,useContext} from 'react';
+import { useEffect , useState ,useContext,useRef} from 'react';
 import { GalleryContext } from '../../store/GalleryContext.jsx';
 import { getEp ,getUserSaveEp } from '../../api/api.js';
 import emptyfolder from './../../assets/images/emptyfolder.png';
@@ -36,6 +37,7 @@ const Greeting = () => {
 const MyLoveEp = ()=>{
     const { playerEpItem, setPlayerEpItem }  = useContext(AppContext);
     const { player_state, setPlayer_state }  = useContext(AppContext);
+    const { setIsClose} = useContext(AppContext);
     const token = localStorage.getItem('accessToken');
     const [loveEp,setLoveEp] = useState(null);
     useEffect(()=>{
@@ -45,6 +47,7 @@ const MyLoveEp = ()=>{
 
     const player_playing = (play_ep) =>{
         setPlayerEpItem(play_ep);
+        setIsClose(false);
         setPlayer_state('playing');
     }
     const saveEp_id_list=()=>{
@@ -218,7 +221,9 @@ const Gallery_show = (props)=>{
         }
 }
 const YourPlayerList = (props) =>{
+    const [ isDropdown, setIsDropdown] = useState(false);
     const { isDark_mode, setIsDark_mode}  = useContext(AppContext);
+    const dropdownRef = useRef(null);
     const token = localStorage.getItem('accessToken');
     const href = 'https://api.spotify.com/v1/shows/7HXIJ7YaaWye5fph1qtEu4';
     const [ep, setEp] = useState({});
@@ -227,10 +232,28 @@ const YourPlayerList = (props) =>{
     const [index,setIndex] = useState(0);
     const options = ["帳戶", "登出"]; // 下拉選單的選項列表
     const [selectedOption, setSelectedOption] = useState(''); // 當前選中的選項
-  
+    const navigate = useNavigate();
+    useEffect(()=>{
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+          };
+    },[])
+    function handleClickOutside(event) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsDropdown(false);
+        }
+      }
     const handleSelect = (option) => {
       setSelectedOption(option);
     };
+    const toggleDropdown=()=>{
+        setIsDropdown(!isDropdown);
+    }
+    const LoginOut =()=>{
+        localStorage.clear();
+        navigate('/');
+    }
     useEffect(()=>{
     let result = setEpData(token,href);
     let save_love = getlove_ep_list(token);
@@ -277,7 +300,7 @@ const YourPlayerList = (props) =>{
                         }
                     </div>
 
-                    <div id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="sm:flex flex-row flex-start justify-items-start items-center bg-[#718096] w-[150px] rounded-[30px] py-[0px]" type="button">
+                    <div  id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="sm:flex flex-row flex-start justify-items-start items-center bg-[#718096] w-[150px] rounded-[30px] py-[0px]" type="button">
 
                         { props.data.images ?
                         (<div className=""><img className="w-[48px] h-[48px] rounded-[24px] mr-[5px]" src={props.data.images[0].url} alt="User Icon"></img></div>):
@@ -285,25 +308,30 @@ const YourPlayerList = (props) =>{
                         }
                         <div className="text-[12px] font-700  text-[#111] leading mr-[5px]">個人檔案</div>
                         {/* <li className="dropdown" src=""></li> */}
+                            <button onClick={(e)=>{toggleDropdown()}}>
+                                <svg className="w-2.5 h-2.5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
+                                </svg>
+                            </button>
+                        </div>  
+                    {/* dropItem */}
+                    {isDropdown?
+                    (                    
+                    <div ref={dropdownRef}  id="dropdown" className="absolute right-[0px] top-[70px]  z-20  bg-white divide-y divide-gray-100 rounded-lg shadow w-[100px] dark:bg-gray-700">
+                        <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                            <li>
+                                <a href="https://www.spotify.com/tw/account/overview/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-300 dark:hover:text-white">帳戶</a>
+                            </li>
+                            <li>
+                                <a  onClick={(e)=>{LoginOut()}} href="" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-300 dark:hover:text-white">登出</a>
+                            </li>
+                        </ul>
+                    </div>):
+                    (<div></div>)
+                    }
+                    </div>
 
-                        <svg className="w-2.5 h-2.5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
-                        </svg>
-                    </div>  
-                </div>
 
-
-                {/* dropItem */}
-                <div id="dropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                        <li>
-                            <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">帳戶</a>
-                        </li>
-                        <li>
-                            <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">登出</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
             <div className="sm:grid sm:grid-cols-12 gap-4">
                 <div className="col-1 sm:col-span-9 ">

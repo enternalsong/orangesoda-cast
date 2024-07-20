@@ -4,6 +4,8 @@ import { AppContext } from '../../store/AppProvider';
 import millisecondsToTime from '../../api/compute';
 import close from '../../assets/images/close.svg';
 import {getUserSaveEp} from '../../api/api';
+import player_play from '../../assets/images/player_play.svg';
+import player_stop from '../../assets/images/player_stop.svg';
 export const Music_Player = ()=>{
     const token = localStorage.getItem('accessToken');
     const { playerEpItem, setPlayerEpItem }  = useContext(AppContext);
@@ -61,6 +63,13 @@ export const Music_Player = ()=>{
         }).catch(err=>{
             console.log(err);
         })
+    }
+    const player_playing = (play_ep) =>{
+        setPlayerEpItem(play_ep);
+        setPlayer_state('playing');
+    }
+    const player_stoping = (play_ep)=>{
+        setPlayer_state('stop');
     }
     return(
         <>
@@ -142,7 +151,7 @@ export const Music_Player = ()=>{
                     </div>):
                     (        <div className="mt-5  sm:mt-[10px] relative z-10 rounded-xl shadow-xl">
                     
-                    <div className="bg-white border-slate-100 transition-all duration-500 dark:bg-slate-800  dark:border-slate-500 border-b rounded-t-xl p-4 pb-6 sm:p-10 sm:pb-8 lg:p-6 xl:p-10 xl:pb-8 space-y-6 sm:space-y-8 lg:space-y-6 xl:space-y-8">
+                    <div className="bg-white border-slate-100 transition-all duration-500 dark:bg-slate-800  dark:border-slate-500 border-b rounded-t-xl p-4 pb-6  space-y-6 sm:space-y-8 sm:space-y-6 sm:space-y-8">
                         <button onClick={(e)=>{setIsClose(true)}}className="absolute top-[20px] right-[20px] sm:hidden">
                             <img className="w-[25px] h-[25px]" src={close}></img>
                         </button>
@@ -166,18 +175,18 @@ export const Music_Player = ()=>{
                         <div className="space-y-2">
                             <div className="relative">
                                 <div className="bg-slate-100 transition-all duration-500 dark:bg-slate-700 rounded-full overflow-hidden">
-                                    <div className="bg-cyan-500 transition-all duration-500 dark:bg-cyan-400 w-1/2 h-2" role="progressbar"
+                                    <div className="bg-cyan-500 transition-all duration-500 dark:bg-cyan-400 w-0 h-2" role="progressbar"
                                         aria-label="music progress" aria-valuenow="1456" aria-valuemin="0" aria-valuemax="4550"></div>
                                 </div>
                                 <div
-                                    className="ring-cyan-500 transition-all duration-500 dark:ring-cyan-400 ring-2 absolute left-1/2 top-1/2 w-4 h-4 -mt-2 -ml-2 flex items-center justify-center bg-white rounded-full shadow">
+                                    className="ring-cyan-500 transition-all duration-500 dark:ring-cyan-400 ring-2 absolute left-0 top-1/2 w-4 h-4 -mt-2 -ml-2 flex items-center justify-center bg-white rounded-full shadow">
                                     <div
                                         className="w-1.5 h-1.5 bg-cyan-500 transition-all duration-500 dark:bg-cyan-400 rounded-full ring-1 ring-inset ring-slate-900/5">
                                     </div>
                                 </div>
                             </div>
                             <div className="flex justify-between text-sm leading-6 font-medium tabular-nums">
-                                <div className="text-cyan-500 transition-all duration-500 dark:text-slate-100">24:50</div>
+                                <div className="text-cyan-500 transition-all duration-500 dark:text-slate-100">0:00</div>
                                 <div className="text-slate-500 transition-all duration-500 dark:text-slate-400">{millisecondsToTime(playerEpItem.duration_ms)}</div>
                             </div>
                         </div>
@@ -204,12 +213,18 @@ export const Music_Player = ()=>{
                     </svg>
                     </button>
                         </div>
-                        <button type="button" className="bg-white text-slate-900 transition-all duration-500 dark:bg-slate-100   dark:text-slate-700 flex-none -my-2 mx-auto w-20 h-20 rounded-full ring-1 ring-slate-900/5 shadow-md flex items-center justify-center" aria-label="Pause">
-                    <svg width="30" height="32" fill="currentColor">
-                    <rect x="6" y="4" width="4" height="24" rx="2"></rect>
-                    <rect x="20" y="4" width="4" height="24" rx="2"></rect>
-                    </svg>
-                </button>
+                        {
+                            player_state==="playing"?
+                            (                            
+                                <butto onClick={()=>{player_stoping()}}>
+                                <img   className="w-20 h-20 sm:w-[20px] sm:h-[20px] lg:w-20 lg:h-20" src={player_stop}></img>
+                                </butto>
+                            ):
+                            (   <button onClick={()=>{player_playing(playerEpItem)}}>
+                                <img  className="w-20 h-20 sm:w-[20px] sm:h-[20px] lg:w-20 lg:h-20" src={player_play}></img>
+                                </button>
+                            )
+                        }
                         <div className="flex-auto flex items-center justify-evenly">
                             <button type="button" aria-label="Skip 10 seconds" className="">
                     <svg width="24" height="24" fill="none">

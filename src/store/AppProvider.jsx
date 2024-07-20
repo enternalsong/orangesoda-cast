@@ -5,6 +5,7 @@ export const AppContext = createContext();
 export const AppProvider=({children})=>{
     const [ playerEpItem, setPlayerEpItem] = useState(null);
     const [ player_state, setPlayer_state ] = useState('stop');
+    const [ saveEp_list_state,setSetEp_list_state] = useState(null);
     const [ isDark_mode,setIsDark_mode] = useState(false);
     const [ username,setUsername] = useState('');
     const [isClose, setIsClose] = useState(false);

@@ -11,6 +11,7 @@ import { AppContext } from '../../store/AppProvider';
 const Modal_show_inner = (props)=>{
     const { playerEpItem, setPlayerEpItem }  = useContext(AppContext);
     const { player_state, setPlayer_state }  = useContext(AppContext);
+    const {setIsClose} = useContext(AppContext);
     const token = localStorage.getItem("accessToken");
     const [color, setColor] = useState('red');
     const [isSave,setIsSave] = useState(false);
@@ -46,6 +47,7 @@ const Modal_show_inner = (props)=>{
         setSave_ep_list(result.items);
     }
     const player_playing = (play_ep) =>{
+        setIsClose(false);
         setPlayerEpItem(play_ep);
         setPlayer_state('playing');
     }

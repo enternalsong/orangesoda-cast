@@ -3,6 +3,7 @@ import { useState , useEffect , useRef,useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import spotifyIcon from './../assets/images/spotify-icon.png';
 import mySvg from './../assets/images/logo.svg';
+import orangesodacast from './../assets/images/orangesoda-cast.png'
 import add_icon from './../assets/images/add.svg';
 import YourPlayerList from './player/YourPlayerList';
 import { fetchProfile } from '../api/api.js';
@@ -131,9 +132,12 @@ const Home = () =>{
         <div className="sm:flex sm:items-start bg-[#202124] text-[white]">
             <div className=" sm:px-[32px] pt-[20px] pb-[20px] sm:pt-[40px] pl-[24px] pr-[24px] sm:w-1/5 sm:flex sm:flex-col items-center bg-[#202124] sm:h-screen  sm:py-[40px] sm:min-w-[210px] ">
                 <div className="">
-                    <div className="flex items-center justify-center border-b-2 mb-[10px] ">
-                        <img className=" mb-4 h-[30px] top-3 "src={mySvg} alt="My svg Image"></img>
-                    </div>
+                    <div className="flex items-center justify-center border-b-2 border-[#202124] mb-[5px] bg-[#484D52] ">
+                            <div className="flex flex-row items-center">
+                                <img className="w-[50px] h-[70px]" src={orangesodacast} alt="My svg Image"></img>
+                                <div className="pt-[15px] text-[16px] text-white">OrangeSoda Cast</div>
+                            </div>
+                        </div>
                     <div className="mt-[40px]">
                         <div className="container flex flex-col imtes-center">
                             {/* one button */}
@@ -145,7 +149,7 @@ const Home = () =>{
                                                 <div className="flex items-center leading-[20px]">
                                                     {
                                                         key===0 ? 
-                                                        (<img href={spotifyIcon}></img>):
+                                                        (<img className="ml-[5px] mr-3 w-[14px] h-[14px]" src={spotifyIcon}/>):
                                                         (<i className="mr-3 text-[21px]">📚</i>)
                                                     }
                                                     <div className="text-[14px] ">{Object.keys(cg_list[key])}</div>
@@ -201,7 +205,10 @@ const Home = () =>{
             <div className=" sm:px-[32px] pt-[20px] pb-[20px] sm:pt-[40px] pl-[24px] pr-[24px] sm:w-1/5 sm:flex sm:flex-col items-center bg-[#F6F7F8] sm:h-screen  sm:py-[40px] sm:min-w-[210px] ">
                 <div className="container">
                     <div className="flex items-center justify-center border-b-2 mb-[10px] ">
-                        <img className=" mb-4 h-[30px] top-3 "src={mySvg} alt="My svg Image"></img>
+                        <div className="flex flex-row items-center">
+                            <img className="w-[50px] h-[70px] mb-4" src={orangesodacast} alt="My svg Image"></img>
+                            <div className="text-[16px] text-black">OrangeSoda Cast</div>
+                        </div>
                     </div>
                     <div className="mt-[40px]">
                         <div className="container flex flex-col imtes-center">
@@ -214,7 +221,7 @@ const Home = () =>{
                                                 <div className="flex items-center leading-[20px]">
                                                     {
                                                         key===0 ? 
-                                                        (<img href={spotifyIcon}></img>):
+                                                        (<img className="ml-[5px] mr-3 w-[14px] h-[14px]" src={spotifyIcon}/>):
                                                         (<i className="mr-3 text-[21px]">📚</i>)
                                                     }
                                                     <div className="text-[14px] ">{Object.keys(cg_list[key])}</div>
