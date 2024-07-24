@@ -5,6 +5,7 @@ import spotifyIcon from './../assets/images/spotify-icon.png';
 import mySvg from './../assets/images/logo.svg';
 import orangesodacast from './../assets/images/orangesoda-cast.png'
 import add_icon from './../assets/images/add.svg';
+import arrow_down from './../assets/images/arrow-down.svg';
 import YourPlayerList from './player/YourPlayerList';
 import { fetchProfile } from '../api/api.js';
 import Modal_rename from './modal/Modal_rename.jsx';
@@ -37,6 +38,7 @@ const Home = () =>{
     const [cg_open,setCgopen] = useState({}); //selected_cg for yourplay.jsx
     const [show_select,setShow_select] = useState({});
     const [ show_list_key,setshow_list_key] = useState({});
+    const[ Ismobile_list_show,setIsmobile_list_show] = useState(false);
     useEffect(()=>{
         getProfile();
     },[]);
@@ -131,7 +133,7 @@ const Home = () =>{
             }
         <div className="sm:flex sm:items-start bg-[#202124] text-[white]">
             <div className=" sm:px-[32px] pt-[20px] pb-[20px] sm:pt-[40px] pl-[24px] pr-[24px] sm:w-1/5 sm:flex sm:flex-col items-center bg-[#202124] sm:h-screen  sm:py-[40px] sm:min-w-[210px] ">
-                <div className="">
+                <div className="container">
                     <div className="flex items-center justify-center border-b-2 border-[#202124] mb-[5px] bg-[#484D52] ">
                             <div className="flex flex-row items-center">
                                 <img className="w-[50px] h-[70px]" src={orangesodacast} alt="My svg Image"></img>
@@ -139,13 +141,48 @@ const Home = () =>{
                             </div>
                         </div>
                     <div className="mt-[40px]">
-                        <div className="container flex flex-col imtes-center">
+                        <div className="container flex flex-col">
                             {/* one button */}
+                            <div className="relative sm:hidden flex leading-[20px] items-center   rounded-[12px] text-[14px]  p-[16px] border-[2px] sm:mb-[12px] hover:border-brand">
+                                <div className="wml-[5px] mr-3 w-[14px] h-[14px] "></div>
+                                <div  className="text-[14px] mr-[15px]">
+                                    收藏清單
+                                {Ismobile_list_show===true?
+                                (<div className="relative top-[10px] flex w-[100%]  flex-col z-10 ">
+                                                                {
+                                cg_list.length > 0 && ( cg_list.map((item,key)=>{
+                                    return(
+                                        <div  className="relative" key={key}>
+                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`flex  justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] sm:mb-[12px] hover:border-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
+                                                <div className=" flex items-center leading-[20px]">
+                                                    {
+                                                        key===0 ? 
+                                                        (<img className="ml-[5px] mr-3 w-[14px] h-[14px]" src={spotifyIcon}/>):
+                                                        (<i className="mr-3 text-[21px]">📚</i>)
+                                                    }
+                                                    <div className="text-[14px] ">{Object.keys(cg_list[key])}</div>
+                                                </div>
+                                                <Sidebar onModalOpen={getOpenModalFromChild} cg_select={cg_list[key]} index={key}></Sidebar>
+                                             </div>
+                                        </div>
+                                    )
+                                }))
+                            }
+                                </div>):
+                                (<div></div>)
+                            }
+                            </div>
+                            {Ismobile_list_show ===true ? 
+                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down}></img></button>):
+                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down} className="rotate-180"></img></button>)
+                            }
+                            </div>
+
                             {
                                 cg_list.length > 0 && ( cg_list.map((item,key)=>{
                                     return(
-                                        <div key={key}>
-                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] sm:mb-[12px] hover:border-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
+                                        <div  key={key}>
+                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`hidden sm:flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] sm:mb-[12px] hover:border-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
                                                 <div className="flex items-center leading-[20px]">
                                                     {
                                                         key===0 ? 
@@ -206,18 +243,52 @@ const Home = () =>{
                 <div className="container">
                     <div className="flex items-center justify-center border-b-2 mb-[10px] ">
                         <div className="flex flex-row items-center">
-                            <img className="w-[50px] h-[70px] mb-4" src={orangesodacast} alt="My svg Image"></img>
-                            <div className="text-[16px] text-black">OrangeSoda Cast</div>
+                            <img className="w-[50px] h-[70px] " src={orangesodacast} alt="My svg Image"></img>
+                            <div className="pt-[15px] text-[16px] text-black">OrangeSoda Cast</div>
                         </div>
                     </div>
                     <div className="mt-[40px]">
-                        <div className="container flex flex-col imtes-center">
+                        <div className="container flex flex-col ">
                             {/* one button */}
+                            <div className="relative sm:hidden flex leading-[20px] items-center   rounded-[12px] text-[14px]  p-[16px] border-[2px] sm:mb-[12px] hover:border-brand">
+                                <div className="wml-[5px] mr-3 w-[14px] h-[14px] "></div>
+                                <div  className="text-[14px] mr-[15px]">
+                                    收藏清單
+                                {Ismobile_list_show===true?
+                                (<div className="relative top-[10px] flex w-[100%]  flex-col z-10 ">
+                                                                {
+                                cg_list.length > 0 && ( cg_list.map((item,key)=>{
+                                    return(
+                                        <div  className="relative" key={key}>
+                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`flex  justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] sm:mb-[12px] hover:border-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
+                                                <div className=" flex items-center leading-[20px]">
+                                                    {
+                                                        key===0 ? 
+                                                        (<img className="ml-[5px] mr-3 w-[14px] h-[14px]" src={spotifyIcon}/>):
+                                                        (<i className="mr-3 text-[21px]">📚</i>)
+                                                    }
+                                                    <div className="text-[14px] ">{Object.keys(cg_list[key])}</div>
+                                                </div>
+                                                <Sidebar onModalOpen={getOpenModalFromChild} cg_select={cg_list[key]} index={key}></Sidebar>
+                                             </div>
+                                        </div>
+                                    )
+                                }))
+                            }
+                                </div>):
+                                (<div></div>)
+                            }
+                            </div>
+                            {Ismobile_list_show ===true ? 
+                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down}></img></button>):
+                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down} className="rotate-180"></img></button>)
+                            }
+                            </div>
                             {
                                 cg_list.length > 0 && ( cg_list.map((item,key)=>{
                                     return(
-                                        <div key={key}>
-                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] sm:mb-[12px] hover:border-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
+                                        <div  key={key}>
+                                            <div onClick={(e)=>{cgamrk_click(key)}} className={`hidden sm:flex justify-between items-center rounded-[12px] text-[14px]  p-[16px] border-[2px] sm:mb-[12px] hover:border-brand ${ key===cgmark_open_index ? 'bg-brand':''} `}>
                                                 <div className="flex items-center leading-[20px]">
                                                     {
                                                         key===0 ? 

@@ -195,7 +195,7 @@ const Modal_show_inner = (props)=>{
                                         <div className="sm:col-span-1 p-[4px]">
                                             <div>
                                             <div className="hidden sm:block rounded-[11px] flex items-center">
-                                            <img className="w-[200px] h-[150px] border-[1px] rounded-[11px]" src={ep.images[1].url}></img>
+                                            <img className=" border-[1px] rounded-[11px]" src={ep.images[1].url}></img>
                                             </div>
                                             </div>
                                         </div>

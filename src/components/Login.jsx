@@ -43,7 +43,6 @@ const Login = () =>{
                         modules={[Navigation,Pagination,Autoplay]}
                         spaceBetween={0}
                         slidesPerView={1}
-                        autoplay={false}
                         pagination={{ clickable: true }}
                         autoplay={{ delay:2000, disableOnInteraction: true }}
                         loop ={false}

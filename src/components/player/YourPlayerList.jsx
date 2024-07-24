@@ -173,12 +173,12 @@ const Gallery_show = (props)=>{
                 return(
                 <div className="sm:grid sm:grid-cols-12 sm:gap-4">
                     {show.map((item,key)=>(
-                    <div key={key} className="sm:col-span-3 ">
+                    <div key={key} className="col-span-2 sm:col-span-4 xl:col-span-3 ">
                             <div className="ui_card mb-[32px] flex flex-col  border-[1px]">
                                 <div className="flex flex-row justify-center items-center sm:hidden">
                                     <div className="card-image border-[1px] mb-[8px] rounded-[11px]">
                                         {item.show&&
-                                        (<img className="rounded-[11px]"src={item.show.images[1].url}></img>)
+                                        (<img className=" rounded-[11px]"src={item.show.images[1].url}></img>)
                                         }
                                     </div>
                                 </div>

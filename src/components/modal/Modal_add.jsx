@@ -112,14 +112,29 @@ const Modal_add = (props)=>{
                                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                         {searchPtList.map((pt,key)=>{
                                         return(
-                                            <div onClick={(e)=>{handleClick_pt(pt,key)}} className={`p-2 border-white hover:border-caution border-[1px] rounded-[8px] shadow ${isClick_index===key ? "border-[2px] border-caution":""}`} key={key}>
-                                                <div className="flex flex-col justify-center">
-                                                    <img className="card-image" src={pt.images[1].url}></img>
-                                                    <div className="card-body">
-                                                        <div className="max-h-[50px] overflow-hidden mb-2 ">{pt.name}</div>
-                                                        <div className="text-[#93989A] text-[8px] sm:text-[14px]">{pt.publisher}</div>
-                                                    </div>
+                                          <div>
+                                          {key===isClick_index?
+                                            (
+                                            <div onClick={(e)=>{handleClick_pt(pt,key)}} className={`h-[260px] sm:h-[278px] p-2 border-caution hover:border-caution border-[1px] rounded-[8px] shadow ${isClick_index===key ? "border-[2px] border-caution":""}`} key={key}>
+                                              <div className="flex flex-col justify-center">
+                                                <img className="card-image" src={pt.images[1].url}></img>
+                                                <div className="card-body">
+                                                    <div className="max-h-[50px] overflow-hidden mb-2 ">{pt.name}</div>
+                                                    <div className="text-[#93989A] text-[8px] sm:text-[14px] text-hidden">{pt.publisher}</div>
                                                 </div>
+                                              </div>
+                                            </div>):
+                                            (                                            
+                                            <div onClick={(e)=>{handleClick_pt(pt,key)}} className={`h-[260px] sm:h-[278px] p-2 border-white hover:border-caution border-[1px] rounded-[8px] shadow ${isClick_index===key ? "border-[2px] border-caution":""}`} key={key}>
+                                            <div className="flex flex-col justify-center">
+                                                <img className="card-image" src={pt.images[1].url}></img>
+                                                  <div className="card-body">
+                                                    <div className="max-h-[50px] overflow-hidden mb-2 ">{pt.name}</div>
+                                                    <div className="text-[#93989A] text-[8px] sm:text-[14px] text-hidden">{pt.publisher}</div>
+                                                  </div>
+                                            </div>
+                                            </div>)
+                                            }
                                             </div>
                                         )
                                         })
