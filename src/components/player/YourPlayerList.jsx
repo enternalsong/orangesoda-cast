@@ -111,7 +111,7 @@ const MyLoveEp = ()=>{
                 loveEp.map((item,key)=>(
                     <div key={key} className="gird grid-colos-12 sm:grid sm:grid-cols-12 gap-4 mb-4 p-3 border-b-[2px]">
                         {
-                        <div className="col-span-12 sm:col-span-3">
+                        <div className="col-span-6 sm:col-span-3">
                            <div className="sm:mx-[12px]"> <img className="rounded-[11px] width-[32px] height-[32px] " src={item?.episode?.images[0].url}></img></div>
                            {/* <div className="hidden sm:flex rounded-[11px]  items-center">
                                 <img className="w-[118px] h-[118px] border-[1px] rounded-[11px]" src={item?.episode?.images[1].url}></img>

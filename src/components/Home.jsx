@@ -173,8 +173,8 @@ const Home = () =>{
                             }
                             </div>
                             {Ismobile_list_show ===true ? 
-                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down}></img></button>):
-                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down} className="rotate-180"></img></button>)
+                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down} className="rotate-180"></img></button>):
+                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down} ></img></button>)
                             }
                             </div>
 
@@ -280,8 +280,8 @@ const Home = () =>{
                             }
                             </div>
                             {Ismobile_list_show ===true ? 
-                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down}></img></button>):
-                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down} className="rotate-180"></img></button>)
+                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down} className="rotate-180"></img></button>):
+                            (<button className="absolute top-[22px] right-[30px]" onClick={(e)=>{setIsmobile_list_show(!Ismobile_list_show)}}><img src={arrow_down} ></img></button>)
                             }
                             </div>
                             {

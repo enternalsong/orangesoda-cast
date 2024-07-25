@@ -88,7 +88,7 @@ const Login = () =>{
                                     <img className="w-[50px] h-[70px] mb-4" src={orangesodacast} alt="My svg Image"></img>
                                     <div className="text-[25px] text-[black]">OrangeSoda Cast</div>
                                 </div>
-                            <div className="mb-4"><span>Connecting Stories That Matter</span></div>
+                            <div className="mb-4"><span>Connecting Stories That Matter Is Juicy</span></div>
                             <LoginButton></LoginButton>
                             <div className="text-black">沒有帳號嗎？<a to="/home"><span className=" text-[black] underline">註冊帳號</span></a></div> 
                         </div>
