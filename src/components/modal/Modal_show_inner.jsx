@@ -162,7 +162,7 @@ const Modal_show_inner = (props)=>{
                 <div className="sm:grid sm:grid-cols-5 gap-4 mt-3 sm:mt-0 px-4  sm:text-left mb-[8px]">
                     <div className="sm:col-span-1 ">
                         <div className="border-[1px]  mb-[8px] rounded-[11px]">
-                        <img className="rounded-[11px]" src={props.show.show.images[1].url}></img>
+                        <img className="rounded-[11px]" src={props?.show?.show?.images[1]?.url}></img>
                         </div>
                     </div>
                     <div className="sm:col-span-4">
@@ -172,7 +172,7 @@ const Modal_show_inner = (props)=>{
                                 id="modal-headline"
                                 style={{fontFamily:'Noto Sans TC'}}
                             >
-                                {props.show.show.name}
+                                {props?.show?.show?.name}
                             </h3>
                             <button className="absolute sm:relative top-[5px] right-[5px]"onClick={Modal_Close}><img src={close_svg}></img></button>
                         </div>
@@ -195,7 +195,7 @@ const Modal_show_inner = (props)=>{
                                         <div className="sm:col-span-1 p-[4px]">
                                             <div>
                                             <div className="hidden sm:block rounded-[11px] flex items-center">
-                                            <img className=" border-[1px] rounded-[11px]" src={ep.images[1].url}></img>
+                                            <img className=" border-[1px] rounded-[11px]" src={ep?.images[1]?.url}></img>
                                             </div>
                                             </div>
                                         </div>

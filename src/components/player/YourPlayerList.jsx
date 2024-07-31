@@ -178,13 +178,13 @@ const Gallery_show = (props)=>{
                                 <div className="flex flex-row justify-center items-center sm:hidden">
                                     <div className="card-image border-[1px] mb-[8px] rounded-[11px]">
                                         {item.show&&
-                                        (<img className=" rounded-[11px]"src={item.show.images[1].url}></img>)
+                                        (<img className=" rounded-[11px]"src={item?.show?.images[1].url}></img>)
                                         }
                                     </div>
                                 </div>
                                 <div className="hidden sm:block card-image border-[1px] mb-[8px] rounded-[11px]">
                                         {item.show&&
-                                        (<img className="rounded-[11px]"src={item.show.images[1].url}></img>)
+                                        (<img className="rounded-[11px]"src={item?.show?.images[1].url}></img>)
                                         }
                                 </div>
                                 {item.show&&(
@@ -303,7 +303,7 @@ const YourPlayerList = (props) =>{
                     <div  id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="sm:flex flex-row flex-start justify-items-start items-center bg-[#718096] w-[150px] rounded-[30px] py-[0px]" type="button">
 
                         { props.data.images ?
-                        (<div className=""><img className="w-[48px] h-[48px] rounded-[24px] mr-[5px]" src={props.data.images[0].url} alt="User Icon"></img></div>):
+                        (<div className=""><img className="w-[48px] h-[48px] rounded-[24px] mr-[5px]" src={props?.data?.images[0]?.url} alt="User Icon"></img></div>):
                         (<div></div>)
                         }
                         <div className="text-[12px] font-700  text-[#111] leading mr-[5px]">個人檔案</div>

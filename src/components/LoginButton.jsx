@@ -27,7 +27,8 @@ async function redirectToAuthCodeFlow(clientId) {
                             user-read-email
                             user-read-playback-state
                             playlist-read-private
-                            playlist-modify-public playlist-modify-private user-library-read user-library-modify` 
+                            playlist-modify-public playlist-modify-private user-library-read user-library-modify
+                            streaming` 
                  );
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
