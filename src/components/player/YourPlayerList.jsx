@@ -8,7 +8,7 @@ import { getEp ,getUserSaveEp } from '../../api/api.js';
 import emptyfolder from './../../assets/images/emptyfolder.png';
 import player_play from './../../assets/images/player_play.svg';
 import player_stop from './../../assets/images/player_stop.svg';
-
+import user_default_img from './../../assets/images/user.png';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 const Greeting = () => {
     const [greet,setGreet] = useState("");
@@ -223,7 +223,9 @@ const Gallery_show = (props)=>{
 const YourPlayerList = (props) =>{
     const [ isDropdown, setIsDropdown] = useState(false);
     const { isDark_mode, setIsDark_mode}  = useContext(AppContext);
+    const [ isRotated,setIsRotated] = useState('');
     const dropdownRef = useRef(null);
+    const drop_buttonRef = useRef(null);
     const token = localStorage.getItem('accessToken');
     const href = 'https://api.spotify.com/v1/shows/7HXIJ7YaaWye5fph1qtEu4';
     const [ep, setEp] = useState({});
@@ -235,19 +237,30 @@ const YourPlayerList = (props) =>{
     const navigate = useNavigate();
     useEffect(()=>{
         document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('mousedown', handleClickButtonOutside);
+        // document.addEventListener('mousedown',handleClickButtonOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickButtonOutside);
+
           };
     },[])
-    function handleClickOutside(event) {
+    function handleClickButtonOutside(event) {
+        if (drop_buttonRef.current && !drop_buttonRef.current.contains(event.target) ) {
+            setIsRotated(false);
+            
+        }
+      }
+    function handleClickOutside(event){
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setIsDropdown(false);
         }
-      }
+    }
     const handleSelect = (option) => {
       setSelectedOption(option);
     };
     const toggleDropdown=()=>{
+        setIsRotated(!isRotated);
         setIsDropdown(!isDropdown);
     }
     const LoginOut =()=>{
@@ -300,24 +313,27 @@ const YourPlayerList = (props) =>{
                         }
                     </div>
 
-                    <div  id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="sm:flex flex-row flex-start justify-items-start items-center bg-[#718096] w-[150px] rounded-[30px] py-[0px]" type="button">
+                    <div   id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="sm:flex flex-row flex-start justify-items-start items-center bg-[#718096] w-[150px] rounded-[30px] py-[0px] h-[48px]" type="button">
 
-                        { props.data.images ?
+                        { props?.data?.images?.length>0 ?
                         (<div className=""><img className="w-[48px] h-[48px] rounded-[24px] mr-[5px]" src={props?.data?.images[0]?.url} alt="User Icon"></img></div>):
-                        (<div></div>)
+                        (<div className=""><img className="w-[48px] h-[48px] rounded-[24px] mr-[5px]" src={user_default_img}></img></div>)
                         }
                         <div className="text-[12px] font-700  text-[#111] leading mr-[5px]">個人檔案</div>
                         {/* <li className="dropdown" src=""></li> */}
-                            <button onClick={(e)=>{toggleDropdown()}}>
+                          
+                            <button ref={drop_buttonRef}  className={`rotating-icon ${isRotated? 'rotating-reverse':''}`} onClick={(e)=>{toggleDropdown()}}>
                                 <svg className="w-2.5 h-2.5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
                                 </svg>
                             </button>
+                        
+
                         </div>  
                     {/* dropItem */}
                     {isDropdown?
                     (                    
-                    <div ref={dropdownRef}  id="dropdown" className="absolute right-[0px] top-[70px]  z-20  bg-white divide-y divide-gray-100 rounded-lg shadow w-[100px] dark:bg-gray-700">
+                    <div  ref={dropdownRef} id="dropdown" className="absolute right-[0px] top-[70px]  z-20  bg-white divide-y divide-gray-100 rounded-lg shadow w-[100px] dark:bg-gray-700">
                         <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                             <li>
                                 <a href="https://www.spotify.com/tw/account/overview/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-300 dark:hover:text-white">帳戶</a>

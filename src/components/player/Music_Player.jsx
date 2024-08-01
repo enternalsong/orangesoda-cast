@@ -151,7 +151,7 @@ export const Music_Player = ()=>{
             //         </div>)
             (        <div className="mt-5  sm:mt-[10px] relative z-10 rounded-xl shadow-xl">
                     
-                <div className="bg-[#4d5156] border-slate-100 transition-all duration-500 dark:bg-slate-800  dark:border-slate-500 border-b rounded-t-xl px-4  pt-[5px] pb-6   ">
+                <div className="bg-[#4d5156] border-slate-100 transition-all duration-500 dark:bg-slate-800  dark:border-slate-500 border-b rounded-t-xl px-4  pt-[5px] pb-6 mb-[5px]  ">
                     <button onClick={(e)=>{setIsClose(true)}}className="absolute top-[20px] right-[20px] sm:hidden">
                         <img className="w-[25px] h-[25px]" src={close}></img>
                     </button>
@@ -248,7 +248,7 @@ export const Music_Player = ()=>{
                         <img src={playerEpItem?.images[1].url} loading="lazy" decoding="async" alt="" className="hidden sm:block w-[100px] h-[100px] sm:w-[100%] sm:h-[100%] mt-[0px] pt-[0px]" />
                         <div className="flex items-center space-r-4">
                         <img src={playerEpItem?.images[1].url} loading="lazy" decoding="async" alt="" className="flex-none rounded-lg bg-slate-100  mr-[10px] sm:hidden" width="100" height="100"/>
-                            <div className="min-w-0 flex-auto space-y-1 font-semibold">
+                            <div className="min-w-0 flex-auto space-y-1 font-semibold mb-[20px]">
 
                                 <p className="text-dark transition-all duration-500 show-name text-[1p6x] mb-[4px]  leading-6">
 

@@ -41,6 +41,13 @@ const Home = () =>{
     const[ Ismobile_list_show,setIsmobile_list_show] = useState(false);
     useEffect(()=>{
         getProfile();
+        const hour = new Date().getHours();
+        if(hour>=6 && hour <17){
+            setIsDark_mode(false);
+        }
+        else if ( hour <=6 || (hour >=17 && hour < 24) ){
+            setIsDark_mode(true);
+        }
     },[]);
     useEffect(()=>{
         //console.log(cg_list);
