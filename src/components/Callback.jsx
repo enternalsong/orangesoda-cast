@@ -41,9 +41,9 @@ const Callback = () =>{
         params.append("grant_type", "authorization_code");
         params.append("code", code);
         //local
-        params.append("redirect_uri", "http://localhost:5173/callback");
+        //params.append("redirect_uri", "http://localhost:5173/callback");
         //deploy
-        //params.append("redirect_uri", "https://orangesodacast.netlify.app/callback");
+        params.append("redirect_uri", "https://orangesodacast.netlify.app/callback");
         //
         params.append("code_verifier",verifier);
         const result = await fetch("https://accounts.spotify.com/api/token", {
