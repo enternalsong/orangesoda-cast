@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import * as firebase from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 import {getDatabase,ref,set,onValue,update} from 'firebase/database';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -12,10 +13,12 @@ const firebaseConfig = {
   projectId: "alfa-cast",
   storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_MESSAGE_SENDERING_ID,
-  appId: import.meta.env.VITE_APP_ID
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID
 };
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
+export const analytics = getAnalytics(app);
 const database = getDatabase(app);
 const dbRef = ref(database,'Spotify');
 //write spotify data to the firebase

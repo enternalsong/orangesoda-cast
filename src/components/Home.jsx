@@ -40,7 +40,7 @@ const Home = () =>{
     const [ show_list_key,setshow_list_key] = useState({});
     const[ Ismobile_list_show,setIsmobile_list_show] = useState(false);
     useEffect(()=>{
-        getProfile();
+        let new_data = getProfile();
         const hour = new Date().getHours();
         if(hour>=6 && hour <17){
             setIsDark_mode(false);
