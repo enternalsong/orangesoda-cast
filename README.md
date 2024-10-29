@@ -15,8 +15,11 @@
 
 ## 使用技術
 ### React
+
 ### TailWind CSS
+建立自訂樣式,根據CSS來或擴充主題
 ### FireBase
+用google的firebase作為播放清單的資料庫,
 ### TypeScript
 
 # Orangesoda-Cast
