@@ -9,16 +9,18 @@
 - Demo 網址: [(https://orangesodacast.netlify.app/)](https://orangesodacast.netlify.app/)
 
 ## 功能
-搜尋Spotify的Podcast
-創建播放清單,並調整其順序
-客製化喜愛的單集
+- 搜尋Spotify的Podcast
+- 創建播放清單,並調整其順序
+- 客製化喜愛的單集
 
+## 使用技術
+### React
+### TailWind CSS
+### FireBase
+### TypeScript
 
 # Orangesoda-Cast
 Have you ever wanted to categorize your podcasts, but found that Spotify’s categories are limited to playlists and liked episodes? Now, you can save episodes according to categories you define. This platform provides access to your Spotify podcasts, allowing you to find, organize, and categorize them as you like
-
-
-
 
 ## 使用技術
 React
