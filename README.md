@@ -17,7 +17,7 @@
 ### React
 
 ### TailWind CSS
-建立自訂樣式,根據CSS來或擴充主題
+建立自訂樣式,用Utility first的概念去進行樣式的開發
 ### FireBase
 用google的firebase作為播放清單的資料庫,
 ### TypeScript
